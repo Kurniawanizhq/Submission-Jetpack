@@ -1,5 +1,6 @@
 package com.eone.submission1
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.eone.submission1.data.Callback
 import com.eone.submission1.databinding.FragmentMovieBinding
+import com.eone.submission1.model.DataEntity
+import com.eone.submission1.ui.detail.DetailActivity
 
 
 class MovieFragment : Fragment(), Callback {
@@ -35,9 +38,9 @@ class MovieFragment : Fragment(), Callback {
         }
     }
 
-    private fun setLayout(data: List<MovieEntity>) {
+    private fun setLayout(data: List<DataEntity>) {
         binding.rvMovie.apply {
-            layoutManager = StaggeredGridLayoutManager(2,9)
+            layoutManager = GridLayoutManager(context,2)
 //            GridLayoutManager(context, 2)
             adapter = MovieAdapter(this@MovieFragment)
         }.also {
@@ -52,7 +55,11 @@ class MovieFragment : Fragment(), Callback {
         }
     }
 
-    override fun onItemClicked(data: MovieEntity) {
-        TODO("Not yet implemented")
+    override fun onItemClicked(data: DataEntity) {
+        startActivity(
+            Intent(context, DetailActivity::class.java)
+                .putExtra(DetailActivity.EXTRA_ID,data.id)
+                .putExtra(DetailActivity.EXTRA_TYPE,"MOVIE")
+        )
     }
 }

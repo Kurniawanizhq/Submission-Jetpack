@@ -1,5 +1,6 @@
 package com.eone.submission1
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.eone.submission1.data.Callback
 import com.eone.submission1.databinding.FragmentTvShowBinding
+import com.eone.submission1.model.DataEntity
+import com.eone.submission1.ui.detail.DetailActivity
 
-class TvShowFragment : Fragment(),Callback {
+class TvShowFragment : Fragment(), Callback {
     private lateinit var binding: FragmentTvShowBinding
 
     override fun onCreateView(
@@ -33,7 +37,7 @@ class TvShowFragment : Fragment(),Callback {
         }
     }
 
-    private fun setLayout(data: List<MovieEntity>) {
+    private fun setLayout(data: List<DataEntity>) {
         binding.rvTvShow.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = MovieAdapter(this@TvShowFragment)
@@ -49,7 +53,11 @@ class TvShowFragment : Fragment(),Callback {
         }
     }
 
-    override fun onItemClicked(data: MovieEntity) {
-        TODO("Not yet implemented")
+    override fun onItemClicked(data: DataEntity) {
+        startActivity(
+            Intent(context, DetailActivity::class.java)
+                .putExtra(DetailActivity.EXTRA_ID,data.id)
+                .putExtra(DetailActivity.EXTRA_TYPE,"TV_SHOW")
+        )
     }
 }

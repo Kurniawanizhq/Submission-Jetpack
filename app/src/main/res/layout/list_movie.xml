@@ -38,7 +38,7 @@
             />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_title_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -46,15 +46,15 @@
             android:textSize="14sp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_genre"
-            app:layout_constraintEnd_toEndOf="@+id/tv_genre"
-            app:layout_constraintStart_toStartOf="@+id/tv_genre"
+            app:layout_constraintBottom_toTopOf="@+id/tv_genre_home"
+            app:layout_constraintEnd_toEndOf="@+id/tv_genre_home"
+            app:layout_constraintStart_toStartOf="@+id/tv_genre_home"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
             tools:text="How to Train Your Dragon: The Hidden World" />
 
         <TextView
-            android:id="@+id/tv_genre"
+            android:id="@+id/tv_genre_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"

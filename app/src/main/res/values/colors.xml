@@ -10,6 +10,6 @@
     <color name="colorTextTertiary">#EFEFEF</color>
 
     <color name="colorPrimary">#0d253f</color>
-    <color name="colorPrimaryDark">#01b4e4</color>
+    <color name="colorPrimaryDark">#007FE1</color>
     <color name="colorAccent">#90cea1</color>
 </resources>

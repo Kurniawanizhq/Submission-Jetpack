@@ -1,27 +1,27 @@
 package com.eone.submission1
 
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.eone.submission1.data.Callback
 import com.eone.submission1.databinding.ListMovieBinding
+import com.eone.submission1.model.DataEntity
 
 class MovieAdapter(private val callback : Callback) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
-    private var listMovies = ArrayList<MovieEntity>()
+    private var listMovies = ArrayList<DataEntity>()
 
-    fun setMovies(movies : List<MovieEntity>?){
+    fun setMovies(movies : List<DataEntity>?){
         if (movies==null) return
         this.listMovies.clear()
         this.listMovies.addAll(movies)
     }
 
     inner class MovieViewHolder (private val binding : ListMovieBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(movie : MovieEntity){
+        fun bind(movie : DataEntity){
             binding.apply {
-                tvTitle.text = movie.title
-                tvGenre.text = movie.genre
+                tvTitleHome.text = movie.title
+                tvGenreHome.text = movie.genre
                 itemView.setOnClickListener {
 
                 }

@@ -1,6 +1,6 @@
-package com.eone.submission1
+package com.eone.submission1.model
 
-data class MovieEntity(
+data class DataEntity(
     val id: String,
     val title: String,
     val overview: String,

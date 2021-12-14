@@ -1,10 +1,13 @@
-package com.eone.submission1
+package com.eone.submission1.ui.home
 
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.eone.submission1.MovieFragment
+import com.eone.submission1.R
+import com.eone.submission1.TvShowFragment
 
 class ViewPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(
     fm,
