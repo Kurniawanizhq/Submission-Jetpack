@@ -18,6 +18,10 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.title = "Detail Film"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
         val id = intent.getStringExtra(EXTRA_ID)
         val type = intent.getStringExtra(EXTRA_TYPE)
 
@@ -48,13 +52,22 @@ class DetailActivity : AppCompatActivity() {
             tvDescription.text = dataEntity.overview
 
             Glide.with(this@DetailActivity)
+                .clear(posterImg)
+            Glide.with(this@DetailActivity)
+                .clear(bgImage)
+
+            Glide.with(this@DetailActivity)
                 .load(dataEntity.poster)
                 .into(posterImg)
-
             Glide.with(this@DetailActivity)
                 .load(dataEntity.background)
                 .into(bgImage)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     companion object {

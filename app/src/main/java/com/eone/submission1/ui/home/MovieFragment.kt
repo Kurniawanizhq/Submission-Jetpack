@@ -1,4 +1,4 @@
-package com.eone.submission1
+package com.eone.submission1.ui.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -31,9 +31,8 @@ class MovieFragment : Fragment(), Callback {
             val viewModel = ViewModelProvider(
                 this,
                 ViewModelProvider.NewInstanceFactory()
-            )[MovieViewModel::class.java]
+            )[HomeViewModel::class.java]
             val movies = viewModel.getMovies()
-
             setLayout(movies)
         }
     }
@@ -41,12 +40,11 @@ class MovieFragment : Fragment(), Callback {
     private fun setLayout(data: List<DataEntity>) {
         binding.rvMovie.apply {
             layoutManager = GridLayoutManager(context,2)
-//            GridLayoutManager(context, 2)
-            adapter = MovieAdapter(this@MovieFragment)
+            adapter = HomeAdapter(this@MovieFragment)
         }.also {
             it.adapter.let { adapter ->
                 when (adapter) {
-                    is MovieAdapter -> {
+                    is HomeAdapter -> {
                         adapter.setMovies(data)
                     }
                 }

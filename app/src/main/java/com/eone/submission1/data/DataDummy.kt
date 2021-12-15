@@ -13,7 +13,7 @@ object DataDummy {
                 "2h 2m",
                 "Action, Science Fiction, Adventure",
                 R.drawable.poster_alita,
-                R.drawable.latar_alita
+                R.drawable.bg_alita
             ),
             DataEntity(
                 "movie2",

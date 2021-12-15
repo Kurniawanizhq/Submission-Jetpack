@@ -1,4 +1,4 @@
-package com.eone.submission1
+package com.eone.submission1.ui.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -30,7 +30,7 @@ class TvShowFragment : Fragment(), Callback {
             val viewModel = ViewModelProvider(
                 this,
                 ViewModelProvider.NewInstanceFactory()
-            )[MovieViewModel::class.java]
+            )[HomeViewModel::class.java]
             val movies = viewModel.getTvShow()
 
             setLayout(movies)
@@ -40,11 +40,11 @@ class TvShowFragment : Fragment(), Callback {
     private fun setLayout(data: List<DataEntity>) {
         binding.rvTvShow.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = MovieAdapter(this@TvShowFragment)
+            adapter = HomeAdapter(this@TvShowFragment)
         }.also {
             it.adapter.let { adapter ->
                 when (adapter) {
-                    is MovieAdapter -> {
+                    is HomeAdapter -> {
                         adapter.setMovies(data)
                     }
                 }

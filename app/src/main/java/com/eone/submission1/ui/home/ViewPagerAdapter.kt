@@ -5,9 +5,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.eone.submission1.MovieFragment
 import com.eone.submission1.R
-import com.eone.submission1.TvShowFragment
 
 class ViewPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(
     fm,
@@ -17,7 +15,7 @@ class ViewPagerAdapter(private val mContext: Context, fm: FragmentManager) : Fra
 
     override fun getItem(position: Int): Fragment =
         when (position) {
-            0 -> MovieFragment()
+            0 -> {MovieFragment()}
             1 -> TvShowFragment()
             else -> Fragment()
         }

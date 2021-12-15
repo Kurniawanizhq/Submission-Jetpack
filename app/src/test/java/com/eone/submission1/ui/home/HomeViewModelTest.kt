@@ -1,15 +1,16 @@
-package com.eone.submission1
+package com.eone.submission1.ui.home
 
+import com.eone.submission1.ui.home.HomeViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 
-class MovieViewModelTest {
+class HomeViewModelTest {
 
-    private lateinit var viewModel: MovieViewModel
+    private lateinit var viewModel: HomeViewModel
     @Before
     fun setUp() {
-        viewModel = MovieViewModel()
+        viewModel = HomeViewModel()
     }
 
     @org.junit.Test
