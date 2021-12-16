@@ -4,13 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.eone.submission1.R
-import com.eone.submission1.data.Callback
 import com.eone.submission1.databinding.ListMovieBinding
 import com.eone.submission1.model.DataEntity
 
-class HomeAdapter(private val callback: Callback) :
+class HomeAdapter(private val homeCallback: HomeCallback) :
     RecyclerView.Adapter<HomeAdapter.MovieViewHolder>() {
     private var listMovies = ArrayList<DataEntity>()
 
@@ -29,9 +26,8 @@ class HomeAdapter(private val callback: Callback) :
                 Glide.with(itemView.context)
                     .load(movie.poster)
                     .into(ivItem)
-
                 itemCard.setOnClickListener {
-                    callback.onItemClicked(movie)
+                    homeCallback.onItemClicked(movie)
                 }
             }
         }

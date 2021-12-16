@@ -1,7 +1,6 @@
 package com.eone.submission1.ui.home
 
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -10,17 +9,25 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.eone.submission1.R
 import com.eone.submission1.data.DataDummy
-import org.junit.Assert.*
+import com.eone.submission1.ui.home.activity.HomeActivity
 import org.junit.Rule
 import org.junit.Test
 
-class HomeActivityTest{
+class HomeActivityTest {
 
     private val dummyMovies = DataDummy.getMovies()
     private val dummyTvShow = DataDummy.getTvShows()
 
     @get:Rule
     var activityRule = ActivityScenarioRule(HomeActivity::class.java)
+
+    @Test
+    fun loadHome(){
+        onView(ViewMatchers.withId(R.id.cv_poster))
+            .perform(ViewActions.swipeLeft())
+        onView(ViewMatchers.withId(R.id.tabLayout))
+            .perform(ViewActions.swipeUp())
+    }
 
     @Test
     fun loadMovies() {
@@ -57,8 +64,10 @@ class HomeActivityTest{
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(ViewMatchers.withId(R.id.tv_genre))
             .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].genre)))
-//        onView(withId(R.id.btnBack)).perform(click())
-    }
+        onView(ViewMatchers.withId(R.id.poster_img))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(ViewMatchers.withId(R.id.bg_image))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))}
 
     @Test
     fun loadTvShows() {
@@ -97,6 +106,9 @@ class HomeActivityTest{
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(ViewMatchers.withId(R.id.tv_genre))
             .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].genre)))
-//        onView(withId(R.id.btnBack)).perform(click())
+        onView(ViewMatchers.withId(R.id.poster_img))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(ViewMatchers.withId(R.id.bg_image))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }

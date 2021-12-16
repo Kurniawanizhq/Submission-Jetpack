@@ -46,7 +46,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/poster_how_to_train"
             app:layout_constraintVertical_bias="0.22000003"
-            tools:contentDescription="TODO" />
+            android:contentDescription="@string/poster" />
     </androidx.cardview.widget.CardView>
 
 

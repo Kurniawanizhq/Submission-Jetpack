@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.eone.submission1.data.DataDummy
 import com.eone.submission1.databinding.ActivityDetailBinding
 import com.eone.submission1.model.DataEntity
 
@@ -18,8 +19,10 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Detail Film"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            title = "Detail Film"
+            setDisplayHomeAsUpEnabled(true)
+        }
 
 
         val id = intent.getStringExtra(EXTRA_ID)

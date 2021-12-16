@@ -1,4 +1,4 @@
-package com.eone.submission1.ui.home
+package com.eone.submission1.ui.home.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.eone.submission1.data.Callback
+import com.eone.submission1.ui.home.HomeCallback
 import com.eone.submission1.databinding.FragmentTvShowBinding
 import com.eone.submission1.model.DataEntity
 import com.eone.submission1.ui.detail.DetailActivity
+import com.eone.submission1.ui.home.HomeAdapter
+import com.eone.submission1.ui.home.HomeViewModel
 
-class TvShowFragment : Fragment(), Callback {
+class TvShowFragment : Fragment(), HomeCallback {
     private lateinit var binding: FragmentTvShowBinding
 
     override fun onCreateView(

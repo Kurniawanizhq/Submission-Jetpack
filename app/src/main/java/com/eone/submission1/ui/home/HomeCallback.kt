@@ -1,7 +1,7 @@
-package com.eone.submission1.data
+package com.eone.submission1.ui.home
 
 import com.eone.submission1.model.DataEntity
 
-interface Callback {
+interface HomeCallback {
     fun onItemClicked(data: DataEntity)
 }
