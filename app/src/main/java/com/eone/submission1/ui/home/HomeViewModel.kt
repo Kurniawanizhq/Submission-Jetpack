@@ -1,11 +1,13 @@
 package com.eone.submission1.ui.home
 
 import androidx.lifecycle.ViewModel
-import com.eone.submission1.data.DataDummy
-import com.eone.submission1.model.DataEntity
+import com.eone.submission1.ApiRepository
 
-class HomeViewModel : ViewModel() {
-    fun getMovies(): ArrayList<DataEntity> = DataDummy.getMovies()
+class HomeViewModel(private val apiRepository: ApiRepository) : ViewModel() {
 
-    fun getTvShow(): ArrayList<DataEntity> = DataDummy.getTvShows()
+    fun getMovies() = apiRepository.getMovie()
+    fun getTvShow() = apiRepository.getTvShow()
+//    fun getMovies(): ArrayList<DataEntity> = DataDummy.getMovies()
+//
+//    fun getTvShow(): ArrayList<DataEntity> = DataDummy.getTvShows()
 }

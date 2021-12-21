@@ -2,6 +2,7 @@ package com.eone.submission1
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.eone.submission1.model.DataEntity
 
 class ApiRepository(private val remoteRepository: RemoteDataSource) : ContentDataSource {
 
@@ -19,41 +20,45 @@ class ApiRepository(private val remoteRepository: RemoteDataSource) : ContentDat
         }
     }
 
-    override fun getMovie(): LiveData<List<ItemList>> {
-        val listMovie = MutableLiveData<List<ItemList>>()
+    override fun getMovie(): LiveData<List<DataEntity>> {
+        val listMovie = MutableLiveData<List<DataEntity>>()
         remoteRepository.getMovie(object : RemoteDataSource.GetMovieCallback{
-            override fun onResponse(movieResponse: List<ItemList>) {
+            override fun onResponse(movieResponse: List<DataEntity>) {
                 listMovie.postValue(movieResponse)
+            }
+
+            override fun onResponse(movieResponse: List<ItemResponse>) {
+                TODO("Not yet implemented")
             }
         })
         return listMovie
     }
 
 
-    override fun getDetailMovie(movieId : String): LiveData<ItemList> {
-        val movieDetail =MutableLiveData<ItemList>()
+    override fun getDetailMovie(movieId : String): LiveData<DataEntity> {
+        val movieDetail =MutableLiveData<DataEntity>()
         remoteRepository.getMovieDetail(movieId,object : RemoteDataSource.GetMovieDetailCallback{
-            override fun onResponse(movieDetailResponse: ItemList) {
+            override fun onResponse(movieDetailResponse: DataEntity) {
                 movieDetail.postValue(movieDetailResponse)
             }
         })
         return movieDetail
     }
 
-    override fun getTvShow(): LiveData<List<ItemList>> {
-        val listTvShow = MutableLiveData<List<ItemList>>()
+    override fun getTvShow(): LiveData<List<DataEntity>> {
+        val listTvShow = MutableLiveData<List<DataEntity>>()
         remoteRepository.getTvShow(object : RemoteDataSource.GetTvShowCallback{
-            override fun onResponse(tvShowResponse: List<ItemList>) {
+            override fun onResponse(tvShowResponse: List<DataEntity>) {
                 listTvShow.postValue(tvShowResponse)
             }
         })
         return listTvShow
     }
 
-    override fun getTvShowDetail(tvShowId: String): LiveData<ItemList> {
-        val tvShowDetail = MutableLiveData<ItemList>()
+    override fun getTvShowDetail(tvShowId: String): LiveData<DataEntity> {
+        val tvShowDetail = MutableLiveData<DataEntity>()
         remoteRepository.getTvShowDetail(tvShowId,object : RemoteDataSource.GetTvShowDetailCallback{
-            override fun onResponse(tvShowDetailResponse: ItemList) {
+            override fun onResponse(tvShowDetailResponse: DataEntity) {
                 tvShowDetail.postValue(tvShowDetailResponse)
             }
 

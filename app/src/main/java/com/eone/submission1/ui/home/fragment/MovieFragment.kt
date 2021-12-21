@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.eone.submission1.ViewModelFactory
 import com.eone.submission1.ui.home.HomeCallback
 import com.eone.submission1.databinding.FragmentMovieBinding
 import com.eone.submission1.model.DataEntity
@@ -17,6 +18,7 @@ import com.eone.submission1.ui.home.HomeViewModel
 
 
 class MovieFragment : Fragment(), HomeCallback {
+
     private lateinit var binding: FragmentMovieBinding
 
     override fun onCreateView(
@@ -30,9 +32,11 @@ class MovieFragment : Fragment(), HomeCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
+            val viewModelFactory = ViewModelFactory.getInstance(requireContext())
+
             val viewModel = ViewModelProvider(
                 this,
-                ViewModelProvider.NewInstanceFactory()
+                viewModelFactory
             )[HomeViewModel::class.java]
             val movies = viewModel.getMovies()
             setLayout(movies)

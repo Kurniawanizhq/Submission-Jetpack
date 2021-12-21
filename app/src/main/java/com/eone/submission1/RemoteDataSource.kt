@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.Response
 
 class RemoteDataSource {
-    private val apiKey = API_BASE
+    private val apiKey = BuildConfig.apiKey
     private val retrofitConfig = ApiConfig
 
     companion object {
@@ -20,19 +20,19 @@ class RemoteDataSource {
     }
 
     interface GetMovieCallback {
-        fun onResponse(movieResponse: List<ItemList>)
+        fun onResponse(movieResponse: List<ItemDetailResponse>)
     }
 
     interface GetMovieDetailCallback {
-        fun onResponse(movieDetailResponse: ItemList)
+        fun onResponse(movieDetailResponse: ItemDetailResponse)
     }
 
     interface GetTvShowCallback {
-        fun onResponse(tvShowResponse: List<ItemList>)
+        fun onResponse(tvShowResponse: List<ItemDetailResponse>)
     }
 
     interface GetTvShowDetailCallback {
-        fun onResponse(tvShowDetailResponse: ItemList)
+        fun onResponse(tvShowDetailResponse: ItemDetailResponse)
     }
 
     fun getMovie(getMovieCallback: GetMovieCallback) {
@@ -52,12 +52,12 @@ class RemoteDataSource {
 
     fun getMovieDetail(movieId: String, getMovieDetailCallback: GetMovieDetailCallback) {
         retrofitConfig.getApiServices().getMovieDetail(movieId, apiKey)
-            .enqueue(object : retrofit2.Callback<ItemList> {
-                override fun onResponse(call: Call<ItemList>, response: Response<ItemList>) {
+            .enqueue(object : retrofit2.Callback<ItemDetailResponse> {
+                override fun onResponse(call: Call<ItemDetailResponse>, response: Response<ItemDetailResponse>) {
                     getMovieDetailCallback.onResponse(response.body()!!)
                 }
 
-                override fun onFailure(call: Call<ItemList>, t: Throwable) {
+                override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
                     Log.d(TAG, t.printStackTrace().toString())
                 }
             })
@@ -79,12 +79,12 @@ class RemoteDataSource {
     }
 
     fun getTvShowDetail(tvShowId : String, getTvShowDetailCallback: GetTvShowDetailCallback){
-        retrofitConfig.getApiServices().getTvShowDetail(tvShowId,apiKey).enqueue(object : retrofit2.Callback<ItemList>{
-            override fun onResponse(call: Call<ItemList>, response: Response<ItemList>) {
+        retrofitConfig.getApiServices().getTvShowDetail(tvShowId,apiKey).enqueue(object : retrofit2.Callback<ItemDetailResponse>{
+            override fun onResponse(call: Call<ItemDetailResponse>, response: Response<ItemDetailResponse>) {
                 getTvShowDetailCallback.onResponse(response.body()!!)
             }
 
-            override fun onFailure(call: Call<ItemList>, t: Throwable) {
+            override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
                 Log.d(TAG,t.printStackTrace().toString())
             }
         })

@@ -15,7 +15,7 @@ interface ApiService {
     fun getMovieDetail(
         @Path("movie_id") movieId : String,
         @Query("api_key") apiKey : String
-    ): Call<ItemList>
+        ): Call<ItemDetailResponse>
 
     @GET("3/tv/popular")
     fun getTvShows(
@@ -26,5 +26,5 @@ interface ApiService {
     fun getTvShowDetail(
         @Path("tv_id") tvId: String,
         @Query("api_key") apiKey : String
-    ): Call<ItemList>
+    ): Call<ItemDetailResponse>
 }
