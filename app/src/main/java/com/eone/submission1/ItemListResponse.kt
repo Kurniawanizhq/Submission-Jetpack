@@ -18,8 +18,6 @@ data class ItemListResponse(
     @SerializedName("overview")
     val overview: String?,
 
-    @SerializedName("genre_ids")
-
     //Specially title for TvShow
     @SerializedName("name")
     val name: String?

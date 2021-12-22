@@ -5,8 +5,10 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.eone.submission1.R
+import com.bumptech.glide.Glide
+import com.eone.submission1.*
 import com.eone.submission1.databinding.ActivityHomeBinding
 import com.eone.submission1.model.DataEntity
 import com.eone.submission1.ui.home.HomeViewModel
@@ -16,7 +18,6 @@ import com.synnapps.carouselview.ImageListener
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var slidePoster: ArrayList<DataEntity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,23 +25,26 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val viewModelFactory =ViewModelFactory.getInstance()
         val viewModel = ViewModelProvider(
             this,
-            ViewModelProvider.NewInstanceFactory()
+            viewModelFactory
         )[HomeViewModel::class.java]
 
         val viewPagerAdapter = HomePagerAdapter(this)
         binding.viewPager.adapter = viewPagerAdapter
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            viewModel.getMovies()?.observe(this,{
+                bigPoster(it)
+                binding.cvPoster.pageCount = it.size
+            })
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
 
-        slidePoster = bigPoster(viewModel.getMovies(),
-            viewModel.getTvShow())
+        binding.viewPager
 
-        binding.cvPoster.pageCount = slidePoster.size
-        binding.cvPoster.setImageListener(imageListener)
+
 
         val fontTitle : Typeface? = ResourcesCompat.getFont(this,R.font.screamreal)
 
@@ -52,17 +56,15 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private val imageListener = ImageListener { position, imageView ->
-        imageView.setImageResource(slidePoster[position].background)
-    }
-
-    private fun bigPoster(dataMovie : ArrayList<DataEntity>,dataTvShow : ArrayList<DataEntity>) : ArrayList<DataEntity>{
-        val result : ArrayList<DataEntity> = ArrayList()
+    private fun bigPoster(dataMovie : List<ItemListResponse>) {
+        val result : ArrayList<ItemListResponse> = ArrayList()
         result.addAll(dataMovie)
-        result.addAll(dataTvShow)
-        return result
-    }
 
+        binding.cvPoster.setImageListener { position, imageView ->
+            println("BUELD : ${BuildConfig.IMAGE_URL+dataMovie[position].backdropPath}")
+            Glide.with(this).load(BuildConfig.IMAGE_URL+dataMovie[position].backdropPath).into(imageView)
+        }
+    }
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(R.string.movies, R.string.tvShow)

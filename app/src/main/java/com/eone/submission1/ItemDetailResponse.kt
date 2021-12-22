@@ -18,6 +18,9 @@ data class ItemDetailResponse(
     @SerializedName("title")
     val title: String,
 
+    @SerializedName("runtime")
+    val duration : Int?,
+
     @SerializedName("overview")
     val overview: String,
 
@@ -25,5 +28,8 @@ data class ItemDetailResponse(
     val release_date: String,
 
     @SerializedName("vote_average")
-    val vote_average: Double
+    val vote_average: Double,
+
+    @SerializedName("episode_run_time")
+    val epsDuration: List<Int>
 )

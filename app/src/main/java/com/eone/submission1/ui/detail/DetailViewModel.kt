@@ -2,13 +2,15 @@ package com.eone.submission1.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.eone.submission1.ApiRepository
-import com.eone.submission1.data.DataDummy
+import com.eone.submission1.ContentRepository
+import com.eone.submission1.ItemDetailResponse
 import com.eone.submission1.model.DataEntity
 
-class DetailViewModel (private val apiRepository: ApiRepository): ViewModel() {
+class DetailViewModel (private val contentRepository: ContentRepository?): ViewModel() {
 
-    fun getMovieDetail(movieId : Int) :  LiveData<DataEntity> = apiRepository.getDetailMovie(movieId)
+    fun getMovieDetail(movieId : Int) : LiveData<ItemDetailResponse>? = contentRepository?.getDetailMovie(movieId)
+
+    fun getTvShowDetail(tvShowId : Int) : LiveData<ItemDetailResponse>? = contentRepository?.getTvShowDetail(tvShowId)
 
 //    private lateinit var movieId : String
 //    private lateinit var tvShowId : String

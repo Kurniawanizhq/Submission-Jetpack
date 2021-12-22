@@ -4,14 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.eone.submission1.BuildConfig
+import com.eone.submission1.ItemListResponse
 import com.eone.submission1.databinding.ListMovieBinding
-import com.eone.submission1.model.DataEntity
 
 class HomeAdapter(private val homeCallback: HomeCallback) :
     RecyclerView.Adapter<HomeAdapter.MovieViewHolder>() {
-    private var listMovies = ArrayList<DataEntity>()
+    private var listMovies = ArrayList<ItemListResponse>()
 
-    fun setMovies(movies: List<DataEntity>?) {
+    fun setMovies(movies: List<ItemListResponse>?) {
         if (movies == null) return
         this.listMovies.clear()
         this.listMovies.addAll(movies)
@@ -19,12 +20,13 @@ class HomeAdapter(private val homeCallback: HomeCallback) :
 
     inner class MovieViewHolder(private val binding: ListMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movie: DataEntity) {
+        fun bind(movie: ItemListResponse) {
             binding.apply {
-                tvTitleHome.text = movie.title
-                tvGenreHome.text = movie.genre
-                Glide.with(itemView.context)
-                    .load(movie.poster)
+                tvTitleHome.text = movie.title ?: movie.name
+//                tvGenreHome.text = movie.genre
+                Glide.with(itemView)
+                    .load(BuildConfig.IMAGE_URL+movie.posterPath)
+                    .centerCrop()
                     .into(ivItem)
                 itemCard.setOnClickListener {
                     homeCallback.onItemClicked(movie)

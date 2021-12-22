@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.fragment.TvShowFragment">
 
+    <com.victor.loading.rotate.RotateLoading
+        android:id="@+id/rl_TvShow"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:elevation="3dp"
+        app:loading_color="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_tvShow"
         android:layout_width="match_parent"

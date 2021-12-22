@@ -8,4 +8,6 @@
     <string name="bgPoster">Background Poster</string>
     <string name="poster">Poster Poster</string>
     <string name="logoSplah">Logo Splash</string>
+    <string name="genreDuration">%1$s | %2$s Minutes</string>
+
 </resources>

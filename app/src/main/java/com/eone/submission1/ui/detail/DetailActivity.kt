@@ -2,8 +2,10 @@ package com.eone.submission1.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.eone.submission1.*
 import com.eone.submission1.data.DataDummy
 import com.eone.submission1.databinding.ActivityDetailBinding
 import com.eone.submission1.model.DataEntity
@@ -11,7 +13,7 @@ import com.eone.submission1.model.DataEntity
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityDetailBinding
-    private lateinit var result : DataEntity
+//    private lateinit var result : ItemDetailResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,35 +26,35 @@ class DetailActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-
-        val id = intent.getStringExtra(EXTRA_ID)
+        val id = intent.getIntExtra(EXTRA_ID,0)
         val type = intent.getStringExtra(EXTRA_TYPE)
 
+        val viewModelFactory = ViewModelFactory.getInstance()
         val viewModel = ViewModelProvider(
             this,
-            ViewModelProvider.NewInstanceFactory()
+            viewModelFactory
         )[DetailViewModel::class.java]
 
-        if (id != null) {
-            if (type.equals("MOVIE", ignoreCase = true)) {
-                viewModel.setMoviesId(id)
-                result = viewModel.getDetailMovieById()
-            } else if (type.equals("TV_SHOW", ignoreCase = true)) {
-                viewModel.setTvShowId(id)
-                result = viewModel.getDetailTvShowById()
-            }
-            detailContent(result)
+        if (type.equals("MOVIE", ignoreCase = true)) {
+            println("pieleh")
+            viewModel.getMovieDetail(id)?.observe(this,{
+                println("eat : $it")
+                detailContent(it)
+            })
+        } else if (type.equals("TV_SHOW", ignoreCase = true)) {
+            viewModel.getTvShowDetail(id)?.observe(this,{
+                detailContent(it)
+            })
         }
     }
 
-    private fun detailContent(dataEntity: DataEntity){
-
+    private fun detailContent(itemDetail: ItemDetailResponse){
         binding.apply {
 
-            tvTitle.text = dataEntity.title
-            tvGenre.text = dataEntity.genre
-            tvDuration.text = dataEntity.duration
-            tvDescription.text = dataEntity.overview
+            tvTitle.text = itemDetail.title
+            tvGenre.text = itemDetail.genre.toString()
+            tvDuration.text = itemDetail.duration.toString() ?: itemDetail.epsDuration.toString()
+            tvDescription.text = itemDetail.overview
 
             Glide.with(this@DetailActivity)
                 .clear(posterImg)
@@ -60,10 +62,10 @@ class DetailActivity : AppCompatActivity() {
                 .clear(bgImage)
 
             Glide.with(this@DetailActivity)
-                .load(dataEntity.poster)
+                .load(BuildConfig.IMAGE_URL+itemDetail.poster_path)
                 .into(posterImg)
             Glide.with(this@DetailActivity)
-                .load(dataEntity.background)
+                .load(BuildConfig.IMAGE_URL+itemDetail.backdropPath)
                 .into(bgImage)
         }
     }
