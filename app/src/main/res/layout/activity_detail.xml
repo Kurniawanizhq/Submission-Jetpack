@@ -27,17 +27,16 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="500dp"
             android:textSize="34sp"
             app:contentScrim="?colorPrimary"
             app:expandedTitleMarginBottom="94dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="Detail Movie">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/bg_image"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="500dp"
                 android:contentDescription="@string/Item_Poster"
                 android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +47,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="500dp"
                 android:src="@drawable/bg_gradient_detail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +118,6 @@
                 android:id="@+id/tv_releaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:fontFamily="@font/montserrat"
                 android:textAlignment="center"
                 android:textColor="#ffffff"

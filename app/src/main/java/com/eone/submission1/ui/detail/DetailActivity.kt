@@ -1,10 +1,14 @@
 package com.eone.submission1.ui.detail
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.eone.submission1.*
 import com.eone.submission1.databinding.ActivityDetailBinding
 import java.util.*
@@ -26,10 +30,6 @@ class DetailActivity : AppCompatActivity() {
         val id = intent.getIntExtra(EXTRA_ID, 0)
         val type = intent.getStringExtra(EXTRA_TYPE)
 
-        binding.collapsing?.apply {
-            title = "Detail $type"
-        }
-
         val viewModelFactory = ViewModelFactory.getInstance()
         val viewModel = ViewModelProvider(
             this,
@@ -37,12 +37,12 @@ class DetailActivity : AppCompatActivity() {
         )[DetailViewModel::class.java]
 
         if (type.equals("MOVIE", ignoreCase = true)) {
-            println("pieleh")
+            binding.collapsing?.title = "Detail Movie"
             viewModel.getMovieDetail(id)?.observe(this, {
-                println("eat : $it")
                 detailContent(it)
             })
         } else if (type.equals("TV_SHOW", ignoreCase = true)) {
+            binding.collapsing?.title = "Detail Tv Show"
             viewModel.getTvShowDetail(id)?.observe(this, {
                 detailContent(it)
             })
@@ -54,21 +54,23 @@ class DetailActivity : AppCompatActivity() {
 
         binding.apply {
 
-            tvTitle.text = itemDetail.title ?: itemDetail.name
             val listGenre = itemDetail.genre.map {
                 it.name
             }
-
             val genreText = replaceList(listGenre.toString())
+            val releaseDate = "( ${
+                itemDetail.releaseMovieDate?.substring(range = 0..3) ?: itemDetail.releaseTvDate?.substring(
+                    range = 0..3
+                )
+            } )"
 
             val duration = if (itemDetail.duration == null) {
                 replaceList(itemDetail.epsDuration.toString())
             } else {
                 replaceList(itemDetail.duration.toString())
-            } +" "+ resources.getString(R.string.minutes)
+            } + " " + resources.getString(R.string.minutes)
 
-            val releaseDate = "( ${itemDetail.releaseMovieDate?.substring(range = 0..3) ?: itemDetail.releaseTvDate?.substring(range = 0..3)} )"
-
+            tvTitle.text = itemDetail.title ?: itemDetail.name
             tvReleaseDate?.text = releaseDate
             tvVote?.text = itemDetail.voteAverage.toString()
             tvDuration.text = duration
@@ -81,9 +83,20 @@ class DetailActivity : AppCompatActivity() {
                 .into(posterImg)
 
             Glide.with(this@DetailActivity)
+                .asBitmap()
                 .load(BuildConfig.IMAGE_URL + itemDetail.backdropPath)
                 .error(BuildConfig.IMAGE_URL)
-                .into(bgImage)
+                .into(object : CustomTarget<Bitmap>(){
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        binding.bgImage.setImageBitmap(resource)
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {}
+
+                })
         }
     }
 
@@ -92,9 +105,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun showProgressBar(state: Boolean) {
-        if (state){
+        if (state) {
             binding.rlDetail?.start()
-        }else{
+        } else {
             binding.rlDetail?.stop()
         }
         binding.appbar?.isInvisible = state
@@ -105,6 +118,4 @@ class DetailActivity : AppCompatActivity() {
         const val EXTRA_ID = "extra_id"
         const val EXTRA_TYPE = "extra_type"
     }
-
-
 }
