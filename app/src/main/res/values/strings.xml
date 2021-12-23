@@ -8,6 +8,9 @@
     <string name="bgPoster">Background Poster</string>
     <string name="poster">Poster Poster</string>
     <string name="logoSplah">Logo Splash</string>
-    <string name="genreDuration">%1$s | %2$s Minutes</string>
+    <string name="genreDuration">(%1$)</string>
+    <string name="minutes">Minutes</string>
+    <string name="percent">%</string>
+
 
 </resources>

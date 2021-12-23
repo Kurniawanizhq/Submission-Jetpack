@@ -41,7 +41,6 @@ class RemoteDataSource {
             override fun onResponse(call: Call<ItemResponse>, response: Response<ItemResponse>) {
                 response.body()?.result?.let {
                     getMovieCallback.onResponse(it)
-                    println("List Movie : $it")
                 }
             }
             override fun onFailure(call: Call<ItemResponse>, t: Throwable) {

@@ -73,7 +73,11 @@ class MovieFragment : Fragment(), HomeCallback {
     }
 
     private fun showProgressBar(state: Boolean) {
-        binding.rlMovie.isVisible = state
         binding.rvMovie.isInvisible = state
+        if (state){
+            binding.rlMovie.start()
+        }else{
+            binding.rlMovie.stop()
+        }
     }
 }

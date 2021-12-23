@@ -12,11 +12,12 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:elevation="3dp"
-        app:loading_color="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26"
+        app:loading_color="@color/colorAccent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_tvShow"

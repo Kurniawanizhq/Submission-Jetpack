@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.eone.submission1.BuildConfig
 import com.eone.submission1.ItemListResponse
+import com.eone.submission1.R
 import com.eone.submission1.databinding.ListMovieBinding
 
 class HomeAdapter(private val homeCallback: HomeCallback) :
@@ -26,7 +27,7 @@ class HomeAdapter(private val homeCallback: HomeCallback) :
 //                tvGenreHome.text = movie.genre
                 Glide.with(itemView)
                     .load(BuildConfig.IMAGE_URL+movie.posterPath)
-                    .centerCrop()
+                    .error(BuildConfig.IMAGE_URL)
                     .into(ivItem)
                 itemCard.setOnClickListener {
                     homeCallback.onItemClicked(movie)

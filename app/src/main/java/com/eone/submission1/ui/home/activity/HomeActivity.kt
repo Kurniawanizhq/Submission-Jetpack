@@ -47,7 +47,6 @@ class HomeActivity : AppCompatActivity() {
 
 
         val fontTitle : Typeface? = ResourcesCompat.getFont(this,R.font.screamreal)
-
         binding.collapsingToolbar.apply {
             title = "THE MOVIEDB"
             setCollapsedTitleTypeface(fontTitle)
@@ -61,8 +60,10 @@ class HomeActivity : AppCompatActivity() {
         result.addAll(dataMovie)
 
         binding.cvPoster.setImageListener { position, imageView ->
-            println("BUELD : ${BuildConfig.IMAGE_URL+dataMovie[position].backdropPath}")
-            Glide.with(this).load(BuildConfig.IMAGE_URL+dataMovie[position].backdropPath).into(imageView)
+            Glide.with(this)
+                .load(BuildConfig.IMAGE_URL+dataMovie[position].backdropPath)
+                .error(BuildConfig.IMAGE_URL)
+                .into(imageView)
         }
     }
     companion object {

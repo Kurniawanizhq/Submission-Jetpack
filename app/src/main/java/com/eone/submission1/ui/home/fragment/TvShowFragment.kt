@@ -41,7 +41,7 @@ class TvShowFragment : Fragment(), HomeCallback {
                 this,
                 viewModelFactory
             )[HomeViewModel::class.java]
-            viewModel.getTvShow()?.observe(viewLifecycleOwner, Observer {
+            viewModel.getTvShow()?.observe(viewLifecycleOwner,{
                 showProgressBar(false)
                 setLayout(it)
             })
@@ -73,7 +73,11 @@ class TvShowFragment : Fragment(), HomeCallback {
     }
 
     private fun showProgressBar(state: Boolean) {
-        binding.rlTvShow.isVisible = state
         binding.rvTvShow.isInvisible = state
+        if (state){
+            binding.rlTvShow.start()
+        }else{
+            binding.rlTvShow.stop()
+        }
     }
 }
