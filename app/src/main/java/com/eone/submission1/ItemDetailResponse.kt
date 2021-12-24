@@ -7,10 +7,10 @@ data class ItemDetailResponse(
     val backdropPath: String,
 
     @SerializedName("poster_path")
-    val poster_path: String,
+    val posterPath: String,
 
     @SerializedName("genres")
-    val genre : List<Genre>,
+    val genre: List<Genre>,
 
     @SerializedName("id")
     val id: Int,
@@ -19,10 +19,10 @@ data class ItemDetailResponse(
     val title: String?,
 
     @SerializedName("runtime")
-    val duration : Int?,
+    val duration: Int?,
 
     @SerializedName("overview")
-    val overview: String,
+    val overview: String?,
 
     @SerializedName("release_date")
     val releaseMovieDate: String?,
@@ -35,8 +35,8 @@ data class ItemDetailResponse(
     val epsDuration: List<Int>,
 
     @SerializedName("first_air_date")
-    val releaseTvDate : String?,
+    val releaseTvDate: String?,
 
     @SerializedName("name")
-    val name : String?,
+    val name: String?,
 )

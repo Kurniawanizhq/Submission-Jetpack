@@ -29,6 +29,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_movie"/>
 
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

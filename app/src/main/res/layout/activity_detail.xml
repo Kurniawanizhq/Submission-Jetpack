@@ -27,27 +27,28 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="300dp"
             android:textSize="34sp"
             app:contentScrim="?colorPrimary"
+            app:title="TITLE"
             app:expandedTitleMarginBottom="94dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/bg_image"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
                 android:contentDescription="@string/Item_Poster"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/bg_how_to_train" />
-
+                tools:src="@drawable/bg_alita" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="match_parent"
                 android:src="@drawable/bg_gradient_detail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

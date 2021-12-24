@@ -5,7 +5,7 @@ import com.eone.submission1.model.DataEntity
 
 interface ContentDataSource {
     fun getMovie() : LiveData<List<ItemListResponse>>
-    fun getDetailMovie(movieId : Int): LiveData<ItemDetailResponse>
+    fun getMovieDetail(movieId : Int): LiveData<ItemDetailResponse>
     fun getTvShow() : LiveData<List<ItemListResponse>>
-    fun getTvShowDetail(movieId: Int) : LiveData<ItemDetailResponse>
+    fun getTvShowDetail(tvShowId: Int) : LiveData<ItemDetailResponse>
 }

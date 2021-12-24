@@ -3,21 +3,7 @@ package com.eone.submission1
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class ContentRepository(private val remoteRepository: RemoteDataSource?) : ContentDataSource {
-
-    companion object {
-        @Volatile
-        private var INSTANCE: ContentRepository? = null
-
-        fun getInstance(remoteRepository: RemoteDataSource?): ContentRepository? {
-            if (INSTANCE == null) {
-                synchronized(ContentRepository::class.java) {
-                    if (INSTANCE == null) INSTANCE = ContentRepository(remoteRepository)
-                }
-            }
-            return INSTANCE
-        }
-    }
+class FakeContentRepository(private val remoteRepository: RemoteDataSource?) : ContentDataSource {
 
     override fun getMovie(): LiveData<List<ItemListResponse>> {
         val listMovie = MutableLiveData<List<ItemListResponse>>()
@@ -31,7 +17,7 @@ class ContentRepository(private val remoteRepository: RemoteDataSource?) : Conte
 
 
     override fun getMovieDetail(movieId : Int): LiveData<ItemDetailResponse> {
-        val movieDetail =MutableLiveData<ItemDetailResponse>()
+        val movieDetail = MutableLiveData<ItemDetailResponse>()
         remoteRepository?.getMovieDetail(movieId,object : RemoteDataSource.GetMovieDetailCallback{
 
             override fun onResponse(movieDetailResponse: ItemDetailResponse) {
