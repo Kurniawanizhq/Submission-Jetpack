@@ -1,82 +1,104 @@
 package com.eone.submission1.ui.home
 
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import com.eone.submission1.EspressoIdlingResource
 import com.eone.submission1.R
 import com.eone.submission1.data.DataDummy
 import com.eone.submission1.ui.home.activity.HomeActivity
-import org.junit.Rule
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 
 class HomeActivityTest {
 
-    private val dummyMovies = DataDummy.getMovies()
-    private val dummyTvShow = DataDummy.getTvShows()
+//    private val dummyMovies = DataDummy.getMovies()
+//    private val dummyTvShow = DataDummy.getTvShows()
 
-    @get:Rule
-    var activityRule = ActivityScenarioRule(HomeActivity::class.java)
+    @Before
+    fun setup() {
+        ActivityScenario.launch(HomeActivity::class.java)
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
+    }
+
+//    @get:Rule
+//    var activityRule = ActivityScenarioRule(HomeActivity::class.java)
 
     @Test
-    fun loadHome(){
-        onView(ViewMatchers.withId(R.id.cv_poster))
+    fun loadHome() {
+        onView(withId(R.id.collapsing_home)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.cv_poster))
             .perform(ViewActions.swipeLeft())
-        onView(ViewMatchers.withId(R.id.tabLayout))
+        onView(withId(R.id.tabLayout))
             .perform(ViewActions.swipeUp())
+        onView(withId(R.id.cv_poster)).perform(ViewActions.click())
     }
 
     @Test
     fun loadMovies() {
-        onView(ViewMatchers.withId(R.id.rv_movie))
+        onView(withId(R.id.rv_movie))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.rv_movie)).perform(
+        onView(withId(R.id.rv_movie)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                dummyMovies.size
+                19
             )
         )
     }
 
     @Test
     fun loadDetailMovies() {
-        onView(ViewMatchers.withId(R.id.rv_movie)).perform(
+        onView(withId(R.id.rv_movie)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 0,
                 ViewActions.click()
             )
         )
-        onView(ViewMatchers.withId(R.id.tv_title))
+        onView(withId(R.id.tv_title))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.tv_title))
-            .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].title)))
-        onView(ViewMatchers.withId(R.id.tv_description))
+//        onView(withId(R.id.tv_title))
+//            .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].title)))
+        onView(withId(R.id.tv_description))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.tv_description))
-            .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].overview)))
-        onView(ViewMatchers.withId(R.id.tv_duration))
+//        onView(withId(R.id.tv_description))
+//            .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].overview)))
+        onView(withId(R.id.tv_duration))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.tv_duration))
-            .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].duration)))
-        onView(ViewMatchers.withId(R.id.tv_genre))
+//        onView(withId(R.id.tv_duration))
+//            .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].duration)))
+        onView(withId(R.id.tv_genre))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.tv_genre))
-            .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].genre)))
-        onView(ViewMatchers.withId(R.id.poster_img))
+//        onView(withId(R.id.tv_genre))
+//            .check(ViewAssertions.matches(ViewMatchers.withText(dummyMovies[0].genre)))
+        onView(withId(R.id.poster_img))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.bg_image))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))}
+        onView(withId(R.id.bg_image))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.tv_release_date)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.collapsing_detail)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.cl_detail)).perform(ViewActions.swipeUp())
+        onView(withId(R.id.cv_vote)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
 
     @Test
     fun loadTvShows() {
         onView(ViewMatchers.withText("Tv Shows")).perform(ViewActions.click())
-        onView(ViewMatchers.withId(R.id.rv_tvShow))
+        onView(withId(R.id.rv_tvShow))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.rv_tvShow)).perform(
+        onView(withId(R.id.rv_tvShow)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                dummyTvShow.size
+                19
             )
         )
     }
@@ -84,31 +106,35 @@ class HomeActivityTest {
     @Test
     fun loadDetailTvShows() {
         onView(ViewMatchers.withText("Tv Shows")).perform(ViewActions.click())
-        onView(ViewMatchers.withId(R.id.rv_tvShow)).perform(
+        onView(withId(R.id.rv_tvShow)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 0,
                 ViewActions.click()
             )
         )
-        onView(ViewMatchers.withId(R.id.tv_title))
+        onView(withId(R.id.tv_title))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.tv_title))
-            .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].title)))
-        onView(ViewMatchers.withId(R.id.tv_description))
+//        onView(withId(R.id.tv_title))
+//            .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].title)))
+        onView(withId(R.id.tv_description))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.tv_description))
-            .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].overview)))
-        onView(ViewMatchers.withId(R.id.tv_duration))
+//        onView(withId(R.id.tv_description))
+//            .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].overview)))
+        onView(withId(R.id.tv_duration))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.tv_duration))
-            .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].duration)))
-        onView(ViewMatchers.withId(R.id.tv_genre))
+//        onView(withId(R.id.tv_duration))
+//            .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].duration)))
+        onView(withId(R.id.tv_genre))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.tv_genre))
-            .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].genre)))
-        onView(ViewMatchers.withId(R.id.poster_img))
+//        onView(withId(R.id.tv_genre))
+//            .check(ViewAssertions.matches(ViewMatchers.withText(dummyTvShow[0].genre)))
+        onView(withId(R.id.poster_img))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        onView(ViewMatchers.withId(R.id.bg_image))
+        onView(withId(R.id.bg_image))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.tv_release_date)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.collapsing_detail)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.cl_detail)).perform(ViewActions.swipeUp())
+        onView(withId(R.id.cv_vote)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 }

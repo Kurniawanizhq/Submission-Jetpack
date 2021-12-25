@@ -62,4 +62,25 @@ class ContentRepository(private val remoteRepository: RemoteDataSource?) : Conte
         })
         return tvShowDetail
     }
+
+    override fun getMoviesGenre(): LiveData<List<Genre>> {
+        val movieGenre = MutableLiveData<List<Genre>>()
+        remoteRepository?.getMovieGenre(object  : RemoteDataSource.GetMoviesGenreCallback{
+            override fun onResponse(movieGenreResponse: List<Genre>) {
+                movieGenre.postValue(movieGenreResponse)
+            }
+        })
+        return movieGenre
+    }
+
+
+    override fun getTvShowGenre(): LiveData<List<Genre>> {
+        val tvShowGenre = MutableLiveData<List<Genre>>()
+        remoteRepository?.getTvShowGenre(object  : RemoteDataSource.GetTvShowGenreCallback{
+            override fun onResponse(tvShowGenreResponse: List<Genre>) {
+                tvShowGenre.postValue(tvShowGenreResponse)
+            }
+        })
+        return tvShowGenre
+    }
 }

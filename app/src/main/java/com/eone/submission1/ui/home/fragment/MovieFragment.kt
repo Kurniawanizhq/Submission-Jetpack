@@ -42,7 +42,6 @@ class MovieFragment : Fragment(), HomeCallback {
 
             viewModel.getMovies()?.observe(viewLifecycleOwner,{
                 showProgressBar(false)
-                println("list Movies : $it")
                 setLayout(it)
             })
         }

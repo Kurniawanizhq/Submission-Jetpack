@@ -4,18 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/cl_detail"
     android:background="@color/colorPrimary"
     tools:context=".ui.detail.DetailActivity">
 
     <com.victor.loading.rotate.RotateLoading
-        android:id="@+id/rlDetail"
+        android:id="@+id/rl_detail"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bg_image"
         app:loading_color="@color/colorAccent" />
 
     <com.google.android.material.appbar.AppBarLayout
@@ -25,7 +22,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing"
+            android:id="@+id/collapsing_detail"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:textSize="34sp"
@@ -79,7 +76,7 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
+                android:id="@+id/cv_poster"
                 android:layout_width="150dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="16dp"
@@ -110,13 +107,13 @@
                 android:textColor="#FFFFFF"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@id/cardView"
-                app:layout_constraintStart_toStartOf="@id/cardView"
-                app:layout_constraintTop_toBottomOf="@id/cardView"
+                app:layout_constraintEnd_toEndOf="@id/cv_poster"
+                app:layout_constraintStart_toStartOf="@id/cv_poster"
+                app:layout_constraintTop_toBottomOf="@id/cv_poster"
                 tools:text="How to Train Your Dragon: The Hidden World" />
 
             <TextView
-                android:id="@+id/tv_releaseDate"
+                android:id="@+id/tv_release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -141,7 +138,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
-                app:layout_constraintTop_toBottomOf="@+id/tv_releaseDate"
+                app:layout_constraintTop_toBottomOf="@+id/tv_release_date"
                 tools:text="Drama, Sci-Fi &amp; Fantasy " />
 
             <TextView
@@ -158,7 +155,7 @@
                 tools:text="44m" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvVote"
+                android:id="@+id/cv_vote"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:layout_marginTop="8dp"
@@ -182,7 +179,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvVote"
+                        android:id="@+id/tv_vote"
                         style="@style/Base.TextAppearance.AppCompat.Headline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -206,7 +203,7 @@
                         android:textColor="#ffffff"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvVote"
+                        app:layout_constraintTop_toTopOf="@+id/tv_vote"
                         android:text="@string/percent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -223,7 +220,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cvVote">
+                app:layout_constraintTop_toBottomOf="@id/cv_vote">
 
                 <TextView
                     android:id="@+id/textView3"
@@ -233,7 +230,7 @@
                     android:fontFamily="@font/montserrat"
                     android:text="@string/description"
                     android:textColor="#05C7F2"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

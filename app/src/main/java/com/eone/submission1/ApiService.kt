@@ -27,4 +27,14 @@ interface ApiService {
         @Path("tv_id") tvId: Int,
         @Query("api_key") apiKey : String
     ): Call<ItemDetailResponse>
+
+    @GET("genre/movie/list")
+    fun getMoviesGenre(
+        @Query("api_key") apiKey: String
+    ) : Call<Genres>
+
+    @GET("genre/movie/list")
+    fun getTvShowsGenre(
+        @Query("api_key") apiKey: String
+    ) : Call<Genres>
 }

@@ -7,10 +7,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DecodeFormat
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.eone.submission1.*
 import com.eone.submission1.databinding.ActivityDetailBinding
 import java.text.SimpleDateFormat
@@ -28,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
 
         binding.toolbar?.setNavigationOnClickListener { onBackPressed() }
         val fontTitle : Typeface? = ResourcesCompat.getFont(this,R.font.screamreal)
-        binding.collapsing?.apply {
+        binding.collapsingDetail?.apply {
             setCollapsedTitleTypeface(fontTitle)
             setExpandedTitleTypeface(fontTitle)
             elevation = 0f
@@ -46,12 +42,12 @@ class DetailActivity : AppCompatActivity() {
         )[DetailViewModel::class.java]
 
         if (type.equals("MOVIE", ignoreCase = true)) {
-            binding.collapsing?.title = "Detail Movie"
+            binding.collapsingDetail?.title = "Detail Movie"
             viewModel.getMovieDetail(id)?.observe(this, {
                 detailContent(it)
             })
         } else if (type.equals("TV_SHOW", ignoreCase = true)) {
-            binding.collapsing?.title = "Detail Tv Show"
+            binding.collapsingDetail?.title = "Detail Tv Show"
             viewModel.getTvShowDetail(id)?.observe(this, {
                 detailContent(it)
             })

@@ -1,16 +1,16 @@
 package com.eone.submission1
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class ItemListResponse(
     @SerializedName("id")
     val id: Int,
 
     @SerializedName("poster_path")
     val posterPath: String?,
+
+    @SerializedName("genre_ids")
+    val genres : List<Int>,
 
     @SerializedName("backdrop_path")
     val backdropPath: String?,
@@ -24,4 +24,4 @@ data class ItemListResponse(
     //Specially title for TvShow
     @SerializedName("name")
     val name: String?
-) : Parcelable
+)

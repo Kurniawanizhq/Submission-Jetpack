@@ -26,7 +26,7 @@ class ContentRepositoryTest {
 
     private fun <T> anyOfT(type: Class<T>): T = any(type)
 
-        private fun <T> eqOfT(obj: T): T = eq(obj)
+    private fun <T> eqOfT(obj: T): T = eq(obj)
 
     @Test
     fun getMovies() {
@@ -61,14 +61,26 @@ class ContentRepositoryTest {
                 movieDetailResponse
             )
             null
-        }.`when`(remoteData).getMovieDetail(eqOfT(movieId), anyOfT(RemoteDataSource.GetMovieDetailCallback::class.java))
-
-        val movieDetailEntities = LiveDataTest.getValue(contentRepository.getMovieDetail(eqOfT(movieId)))
-        verify(remoteData).getMovieDetail(
+        }.`when`(remoteData).getMovieDetail(
             eqOfT(movieId),
             anyOfT(RemoteDataSource.GetMovieDetailCallback::class.java)
         )
-        assertNotNull(movieDetailEntities)
-        assertEquals(movieDetailResponse.id,movieDetailEntities.id)
+
+//        val movieDetailEntities =
+//            LiveDataTest.getValue(contentRepository.getMovieDetail(eqOfT(movieId)))
+//        verify(remoteData).getMovieDetail(
+//            eqOfT(movieId),
+//            anyOfT(RemoteDataSource.GetMovieDetailCallback::class.java)
+//        )
+//        assertNotNull(movieDetailEntities)
+//        assertEquals(tvShowId, movieDetailEntities.id)
+    }
+
+    @Test
+    fun getTvShowDetail(){
+        doAnswer {
+            (it.arguments[0] as RemoteDataSource.GetTvShowDetailCallback).onResponse(tvShowDetailResponse)
+            null
+        }.`when`(remoteData).getTvShowDetail(eqOfT(tvShowId),anyOfT(RemoteDataSource.GetTvShowDetailCallback::class.java))
     }
 }

@@ -8,4 +8,6 @@ interface ContentDataSource {
     fun getMovieDetail(movieId : Int): LiveData<ItemDetailResponse>
     fun getTvShow() : LiveData<List<ItemListResponse>>
     fun getTvShowDetail(tvShowId: Int) : LiveData<ItemDetailResponse>
+    fun getMoviesGenre() : LiveData<List<Genre>>
+    fun getTvShowGenre() : LiveData<List<Genre>>
 }
