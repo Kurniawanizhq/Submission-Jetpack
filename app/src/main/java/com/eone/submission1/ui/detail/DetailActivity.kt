@@ -88,11 +88,13 @@ class DetailActivity : AppCompatActivity() {
 
             Glide.with(this@DetailActivity)
                 .load(BuildConfig.IMAGE_URL + itemDetail.posterPath)
+                .placeholder(R.drawable.picture_placeholder)
                 .error(BuildConfig.IMAGE_URL)
                 .into(posterImg)
 
             Glide.with(this@DetailActivity)
                 .load(BuildConfig.IMAGE_URL + itemDetail.backdropPath)
+                .placeholder(R.drawable.picture_placeholder)
                 .error(BuildConfig.IMAGE_URL)
                 .into(bgImage)
             binding.bgImage.tag = itemDetail.backdropPath

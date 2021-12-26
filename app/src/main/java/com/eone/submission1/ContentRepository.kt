@@ -21,11 +21,21 @@ class ContentRepository(private val remoteRepository: RemoteDataSource?) : Conte
 
     override fun getMovie(): LiveData<List<ItemListResponse>> {
         val listMovie = MutableLiveData<List<ItemListResponse>>()
+        val listGenres = MutableLiveData<List<Genre>>()
+
+        remoteRepository?.getMovieGenre(object : RemoteDataSource.GetMoviesGenreCallback{
+            override fun onResponse(movieGenreResponse: List<Genre>) {
+                listGenres.postValue(movieGenreResponse)
+            }
+        })
+
         remoteRepository?.getMovie(object : RemoteDataSource.GetMovieCallback{
             override fun onResponse(movieResponse: List<ItemListResponse>) {
                 listMovie.postValue(movieResponse)
             }
         })
+
+
         return listMovie
     }
 

@@ -89,6 +89,7 @@ class HomeActivity : AppCompatActivity() {
         binding.cvPoster.setImageListener { position, imageView ->
             Glide.with(this)
                 .load(BuildConfig.IMAGE_URL + dataMovie[position].backdropPath)
+                .placeholder(R.drawable.picture_placeholder)
                 .error(BuildConfig.IMAGE_URL)
                 .into(imageView)
         }
