@@ -41,7 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/bg_alita" />
+                tools:src="@drawable/bg_how_to_train" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"

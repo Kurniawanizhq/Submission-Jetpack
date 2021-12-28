@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.fragment.TvShowFragment">
+    tools:context="com.eone.submission2.ui.home.fragment.TvShowFragment">
 
     <com.victor.loading.rotate.RotateLoading
         android:id="@+id/rl_TvShow"

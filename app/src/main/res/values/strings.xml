@@ -1,14 +1,13 @@
 <resources>
     <string name="app_name">TMDB</string>
-    <string name="movies"> Movies </string>
-    <string name="tvShow"> Tv Shows </string>
+    <string name="movies">Movies</string>
+    <string name="tvShow">Tv Shows</string>
 
     <string name="Item_Poster">item_poster</string>
     <string name="description">Description</string>
     <string name="bgPoster">Background Poster</string>
     <string name="poster">Poster Poster</string>
     <string name="logoSplah">Logo Splash</string>
-    <string name="genreDuration">(%1$)</string>
     <string name="minutes">Minutes</string>
     <string name="percent">%</string>
 
