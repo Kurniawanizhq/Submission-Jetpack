@@ -3,10 +3,10 @@ package com.eone.submission2.ui.detail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.eone.submission2.model.repository.ContentRepository
-import com.eone.submission2.utils.FakeDataDummy
-import com.eone.submission2.data.response.ItemDetailResponse
-import com.eone.submission2.ui.detail.DetailViewModel
+import com.eone.submission3.model.repository.ContentRepository
+import com.eone.submission3.utils.FakeDataDummy
+import com.eone.submission3.data.response.ItemDetailResponse
+import com.eone.submission3.ui.detail.DetailViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

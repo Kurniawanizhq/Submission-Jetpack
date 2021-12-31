@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.eone.submission1">
+    package="com.eone.submission3">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Submission1">
         <activity
-            android:name="com.eone.submission2.ui.home.activity.SplashActivity"
+            android:name=".ui.home.activity.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.detail.DetailActivity"
+            android:name="com.eone.submission3.ui.detail.DetailActivity"
             android:exported="false"/>
         <activity
-            android:name="com.eone.submission2.ui.home.activity.HomeActivity"
+            android:name=".ui.home.activity.HomeActivity"
             android:configChanges="orientation"
             android:exported="true">
         </activity>

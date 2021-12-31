@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/cl_detail"
     android:background="@color/colorPrimary"
-    tools:context=".ui.detail.DetailActivity">
+    tools:context="com.eone.submission3.ui.detail.DetailActivity">
 
     <com.victor.loading.rotate.RotateLoading
         android:id="@+id/rl_detail"
