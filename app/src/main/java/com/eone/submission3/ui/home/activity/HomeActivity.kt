@@ -3,6 +3,7 @@ package com.eone.submission3.ui.home.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.eone.submission3.FavoriteFragment
 import com.eone.submission3.FragmentHome
 import com.eone.submission3.R
@@ -29,6 +30,9 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNav.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
    }
+
+    fun setUpNavController(){
+      }
 
     private fun loadFragment(fragment: Fragment?): Boolean {
         if (fragment != null) {

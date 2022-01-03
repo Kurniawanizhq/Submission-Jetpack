@@ -37,7 +37,6 @@ class MovieFragment : Fragment(), HomeCallback {
             val viewModelFactory = ViewModelFactory.getInstance()
 
             val viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
-
             viewModel.getMovies()?.observe(viewLifecycleOwner, {
                 showProgressBar(false)
                 setLayout(it)
