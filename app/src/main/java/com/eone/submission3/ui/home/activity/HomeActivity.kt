@@ -4,6 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.eone.submission3.FavoriteFragment
 import com.eone.submission3.FragmentHome
 import com.eone.submission3.R
@@ -14,33 +18,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.nav_home ->loadFragment(FragmentHome())
-            R.id.nav_favorite -> loadFragment(FavoriteFragment())
-        }
-        true
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadFragment(FragmentHome())
-        binding.bottomNav.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-   }
+        setUpNavController()
+    }
 
-    fun setUpNavController(){
-      }
+    private fun setUpNavController() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_controller) as NavHostFragment
+        val navController = navHostFragment.navController
 
-    private fun loadFragment(fragment: Fragment?): Boolean {
-        if (fragment != null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fm_container, fragment)
-                .commit()
-            return true
-        }
-        return false
+//        val appBarConfiguration = AppBarConfiguration.Builder(
+//            R.id.nav_home,
+//            R.id.nav_favorite
+//        ).build()
+////
+//        setupActionBarWithNavController(navController,appBarConfiguration)
+        binding.bottomNav.setupWithNavController(navController)
     }
 }

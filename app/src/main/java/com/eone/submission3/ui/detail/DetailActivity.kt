@@ -2,22 +2,28 @@ package com.eone.submission3.ui.detail
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagedList
 import com.bumptech.glide.Glide
 import com.eone.submission3.BuildConfig
 import com.eone.submission3.R
 import com.eone.submission3.*
 import com.eone.submission3.databinding.ActivityDetailBinding
+import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.utils.ViewModelFactory
+import com.eone.submission3.vo.Status
+import com.shashank.sony.fancytoastlib.FancyToast
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var viewModel : DetailViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,43 +39,69 @@ class DetailActivity : AppCompatActivity() {
             elevation = 0f
         }
 
-        showProgressBar(true)
+        val viewModelFactory = ViewModelFactory.getInstance(applicationContext)
 
-        val id = intent.getIntExtra(EXTRA_ID, 0)
-        val type = intent.getStringExtra(EXTRA_TYPE)
-
-        val viewModelFactory = ViewModelFactory.getInstance()
-        val viewModel = ViewModelProvider(
+        viewModel = ViewModelProvider(
             this,
             viewModelFactory
         )[DetailViewModel::class.java]
 
+        val id = intent.getIntExtra(EXTRA_ID, 0)
+        val type = intent.getStringExtra(EXTRA_TYPE)
+
         if (type.equals("MOVIE", ignoreCase = true)) {
             binding.collapsingDetail.title = "Detail Movie"
-            viewModel.getMovieDetail(id)?.observe(this, {
-                detailContent(it)
+            viewModel.getMovieDetail(id).observe(this, {
+                when(it.status){
+                    Status.LOADING ->  showProgressBar(true)
+                    Status.SUCCES -> {
+                        if (it.data != null){
+                            showProgressBar(false)
+//                            val state = it.data.isFavorite
+                            detailMovie(it.data)
+                            viewModel.setFavoriteMovie(it.data)
+                        }
+                    }
+                    Status.ERROR ->{
+                        showProgressBar(false)
+                        FancyToast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                    }
+                }
             })
         } else if (type.equals("TV_SHOW", ignoreCase = true)) {
             binding.collapsingDetail.title = "Detail Tv Show"
-            viewModel.getTvShowDetail(id)?.observe(this, {
-                detailContent(it)
+            viewModel.getTvShowDetail(id).observe(this, {
+                when(it.status){
+                    Status.LOADING ->  showProgressBar(true)
+                    Status.SUCCES -> {
+                        if (it.data != null){
+                            showProgressBar(false)
+//                            val state = it.data.isFavorite
+                            viewModel.setFavoriteTvShow(it.data)
+                        }
+                    }
+                    Status.ERROR ->{
+                        showProgressBar(false)
+                        FancyToast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                    }
+                }
             })
         }
+
     }
 
-    private fun detailContent(itemDetail: com.eone.submission3.data.response.ItemDetailResponse) {
-        showProgressBar(false)
+    private fun detailMovie(itemDetail : MovieEntity) {
 
         binding.apply {
 
             //Get Genre Text
-            val listGenre = itemDetail.genre.map {
-                it.name
-            }
-            val genreText = replaceList(listGenre.toString())
+//            val listGenre = itemDetail.genre?.map {
+//                it.name
+//            }
+//            val genreText = replaceList(listGenre.toString())
 
             // Get year
-            val date : String = itemDetail.releaseMovieDate ?: itemDetail.releaseTvDate.toString()
+            val date : String = itemDetail.releaseDate.toString()
             val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val cal : Calendar = Calendar.getInstance()
             sdf.parse(date)?.let {
@@ -78,17 +110,13 @@ class DetailActivity : AppCompatActivity() {
             val releaseYear = "( ${cal.get(Calendar.YEAR)} )"
 
             // Get duration from Movies & Tv Show
-            val duration = if (itemDetail.duration == null) {
-                replaceList(itemDetail.epsDuration.toString())
-            } else {
-                replaceList(itemDetail.duration.toString())
-            } + " " + resources.getString(R.string.minutes)
+            val duration = "${itemDetail.duration} ${resources.getString(R.string.minutes)}"
 
-            tvTitle.text = itemDetail.title ?: itemDetail.name
+            tvTitle.text = itemDetail.title
             tvReleaseDate.text = releaseYear
             tvVote.text = itemDetail.voteAverage.toString()
             tvDuration.text = duration
-            tvGenre.text = genreText
+            tvGenre.text = itemDetail.genre
             tvDescription.text = itemDetail.overview
 
             Glide.with(this@DetailActivity)

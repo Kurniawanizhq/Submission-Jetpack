@@ -1,6 +1,10 @@
 package com.eone.submission3.model.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.eone.submission3.ApiResponse
 import com.eone.submission3.BuildConfig
 import com.eone.submission3.data.response.ItemDetailResponse
 import com.eone.submission3.data.response.ItemListResponse
@@ -17,94 +21,97 @@ class RemoteDataSource {
 
     companion object {
         private var INSTANCE: RemoteDataSource? = null
-        private val TAG = RemoteDataSource::class.java.toString()
 
-        fun getInstance(): RemoteDataSource? {
+        fun getInstance(): RemoteDataSource {
             if (INSTANCE == null)
                 INSTANCE = RemoteDataSource()
-            return INSTANCE
+            return INSTANCE as RemoteDataSource
         }
     }
 
-    interface GetMovieCallback {
-        fun onResponse(movieResponse: List<ItemListResponse>?)
-    }
-
-    interface GetMovieDetailCallback {
-        fun onResponse(movieDetailResponse: ItemDetailResponse?)
-    }
-
-    interface GetTvShowCallback {
-        fun onResponse(tvShowResponse: List<ItemListResponse>?)
-    }
-
-    interface GetTvShowDetailCallback {
-        fun onResponse(tvShowDetailResponse: ItemDetailResponse?)
-    }
-
-
-    fun getMovie(getMovieCallback: GetMovieCallback) {
+    fun getMovie() : LiveData<ApiResponse<List<ItemListResponse>>>{
         EspressoIdlingResource.increment()
-        retrofitConfig.getApiServices().getMovies(apiKey).enqueue(object : Callback<ItemResponse> {
+        val resultMovies = MutableLiveData<ApiResponse<List<ItemListResponse>>>()
+        val client = ApiConfig.getApiServices().getMovies(apiKey)
+
+        client.enqueue(object : Callback<ItemResponse>{
             override fun onResponse(call: Call<ItemResponse>, response: Response<ItemResponse>) {
-                response.body()?.result?.let {
-                    getMovieCallback.onResponse(it)
-                    EspressoIdlingResource.decrement()
-                }
-            }
-            override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
-                Log.d(TAG, t.printStackTrace().toString())
+                resultMovies.postValue(ApiResponse.success(response.body()?.result as List<ItemListResponse>))
                 EspressoIdlingResource.decrement()
             }
-        })
-    }
-
-    fun getMovieDetail(movieId: Int, getMovieDetailCallback: GetMovieDetailCallback) {
-        EspressoIdlingResource.increment()
-        retrofitConfig.getApiServices().getMovieDetail(movieId, apiKey)
-            .enqueue(object : Callback<ItemDetailResponse> {
-                override fun onResponse(call: Call<ItemDetailResponse>, response: Response<ItemDetailResponse>) {
-                    getMovieDetailCallback.onResponse(response.body()!!)
-                    EspressoIdlingResource.decrement()
-                }
-
-                override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
-                    Log.d(TAG, t.printStackTrace().toString())
-                    EspressoIdlingResource.decrement()
-                }
-            })
-    }
-
-    fun getTvShow(getTvShowCallback: GetTvShowCallback) {
-        EspressoIdlingResource.increment()
-        retrofitConfig.getApiServices().getTvShows(apiKey).enqueue(object : Callback<ItemResponse> {
-            override fun onResponse(call: Call<ItemResponse>, response: Response<ItemResponse>) {
-                response.body()?.result?.let {
-                    getTvShowCallback.onResponse(it)
-                    EspressoIdlingResource.decrement()
-                }
-            }
 
             override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
-                Log.d(TAG, t.printStackTrace().toString())
+                Log.e("RemoteDataSource", "getMovies error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
 
         })
+        return resultMovies
     }
 
-    fun getTvShowDetail(tvShowId : Int, getTvShowDetailCallback: GetTvShowDetailCallback){
+    fun getMovieDetail(movieId: Int,): LiveData<ApiResponse<ItemDetailResponse>> {
         EspressoIdlingResource.increment()
-        retrofitConfig.getApiServices().getTvShowDetail(tvShowId,apiKey).enqueue(object : Callback<ItemDetailResponse>{
-            override fun onResponse(call: Call<ItemDetailResponse>, response: Response<ItemDetailResponse>) {
-                getTvShowDetailCallback.onResponse(response.body()!!)
+        val resultDetailMovie = MutableLiveData<ApiResponse<ItemDetailResponse>>()
+        val client = ApiConfig.getApiServices().getMovieDetail(movieId,apiKey)
+
+        client.enqueue(object : Callback<ItemDetailResponse>{
+            override fun onResponse(
+                call: Call<ItemDetailResponse>,
+                response: Response<ItemDetailResponse>
+            ) {
+                resultDetailMovie.postValue(ApiResponse.success(response.body() as ItemDetailResponse))
                 EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
-                Log.d(TAG,t.printStackTrace().toString())
+                Log.e("RemoteDataSource", "getDetailMovies error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
+
         })
+        return resultDetailMovie
+    }
+
+    fun getTvShow() : LiveData<ApiResponse<List<ItemListResponse>>> {
+        EspressoIdlingResource.increment()
+        val resultTvShows = MutableLiveData<ApiResponse<List<ItemListResponse>>>()
+        val client = ApiConfig.getApiServices().getTvShows(apiKey)
+
+        client.enqueue(object : Callback<ItemResponse>{
+            override fun onResponse(call: Call<ItemResponse>, response: Response<ItemResponse>) {
+                resultTvShows.postValue(ApiResponse.success(response.body()?.result as List<ItemListResponse>))
+                EspressoIdlingResource.decrement()
+            }
+
+            override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
+                Log.e("RemoteDataSource", "getTvShow error : ${t.message}")
+                EspressoIdlingResource.decrement()
+            }
+
+        })
+        return resultTvShows
+    }
+
+    fun getTvShowDetail(tvShowId : Int) : LiveData<ApiResponse<ItemDetailResponse>>{
+        EspressoIdlingResource.increment()
+        val resultDetailTvShow = MutableLiveData<ApiResponse<ItemDetailResponse>>()
+        val client = ApiConfig.getApiServices().getMovieDetail(tvShowId,apiKey)
+
+        client.enqueue(object : Callback<ItemDetailResponse>{
+            override fun onResponse(
+                call: Call<ItemDetailResponse>,
+                response: Response<ItemDetailResponse>
+            ) {
+                resultDetailTvShow.postValue(ApiResponse.success(response.body() as ItemDetailResponse))
+                EspressoIdlingResource.decrement()
+            }
+
+            override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
+                Log.e("RemoteDataSource", "getDetailTvShow error : ${t.message}")
+                EspressoIdlingResource.decrement()
+            }
+
+        })
+        return resultDetailTvShow
     }
 }

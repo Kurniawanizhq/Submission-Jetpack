@@ -1,4 +1,4 @@
-package com.eone.submission3.ui.home
+package com.eone.submission3.ui.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

@@ -1,5 +1,6 @@
 package com.eone.submission3.utils
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.eone.submission3.di.Injection
@@ -7,15 +8,15 @@ import com.eone.submission3.model.repository.ContentRepository
 import com.eone.submission3.ui.detail.DetailViewModel
 import com.eone.submission3.ui.home.HomeViewModel
 
-class ViewModelFactory private constructor(private val contentRepository: ContentRepository?) :
+class ViewModelFactory private constructor(private val contentRepository: ContentRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
         companion object{
             @Volatile
             private var INSTANCE : ViewModelFactory? = null
 
-            fun getInstance() : ViewModelFactory = INSTANCE ?: synchronized(this){
-                INSTANCE ?: ViewModelFactory(Injection.provideRepository())
+            fun getInstance(context: Context) : ViewModelFactory = INSTANCE ?: synchronized(this){
+                INSTANCE ?: ViewModelFactory(Injection.provideRepository(context))
             }
         }
 
