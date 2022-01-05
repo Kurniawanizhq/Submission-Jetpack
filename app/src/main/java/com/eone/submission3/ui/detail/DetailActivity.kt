@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.PagedList
 import com.bumptech.glide.Glide
-import com.eone.submission3.BuildConfig
-import com.eone.submission3.R
 import com.eone.submission3.*
 import com.eone.submission3.databinding.ActivityDetailBinding
 import com.eone.submission3.local.MovieEntity
+import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Status
 import com.shashank.sony.fancytoastlib.FancyToast
@@ -39,7 +37,7 @@ class DetailActivity : AppCompatActivity() {
             elevation = 0f
         }
 
-        val viewModelFactory = ViewModelFactory.getInstance(applicationContext)
+        val viewModelFactory = ViewModelFactory.getInstance(this)
 
         viewModel = ViewModelProvider(
             this,
@@ -48,6 +46,8 @@ class DetailActivity : AppCompatActivity() {
 
         val id = intent.getIntExtra(EXTRA_ID, 0)
         val type = intent.getStringExtra(EXTRA_TYPE)
+
+        println("ID BOY $id")
 
         if (type.equals("MOVIE", ignoreCase = true)) {
             binding.collapsingDetail.title = "Detail Movie"
@@ -58,8 +58,8 @@ class DetailActivity : AppCompatActivity() {
                         if (it.data != null){
                             showProgressBar(false)
 //                            val state = it.data.isFavorite
-                            detailMovie(it.data)
                             viewModel.setFavoriteMovie(it.data)
+                            detailMovie(it.data)
                         }
                     }
                     Status.ERROR ->{
@@ -78,6 +78,7 @@ class DetailActivity : AppCompatActivity() {
                             showProgressBar(false)
 //                            val state = it.data.isFavorite
                             viewModel.setFavoriteTvShow(it.data)
+                            detailTvshow(it.data)
                         }
                     }
                     Status.ERROR ->{
@@ -113,6 +114,50 @@ class DetailActivity : AppCompatActivity() {
             val duration = "${itemDetail.duration} ${resources.getString(R.string.minutes)}"
 
             tvTitle.text = itemDetail.title
+            tvReleaseDate.text = releaseYear
+            tvVote.text = itemDetail.voteAverage.toString()
+            tvDuration.text = duration
+            tvGenre.text = itemDetail.genre
+            tvDescription.text = itemDetail.overview
+
+            Glide.with(this@DetailActivity)
+                .load(BuildConfig.IMAGE_URL + itemDetail.posterPath)
+                .placeholder(R.drawable.picture_placeholder)
+                .error(BuildConfig.IMAGE_URL)
+                .into(posterImg)
+
+            Glide.with(this@DetailActivity)
+                .load(BuildConfig.IMAGE_URL + itemDetail.backdropPath)
+                .placeholder(R.drawable.picture_placeholder)
+                .error(BuildConfig.IMAGE_URL)
+                .into(bgImage)
+
+        }
+    }
+
+    private fun detailTvshow(itemDetail : TvShowEntity) {
+
+        binding.apply {
+
+            //Get Genre Text
+//            val listGenre = itemDetail.genre?.map {
+//                it.name
+//            }
+//            val genreText = replaceList(listGenre.toString())
+
+            // Get year
+            val date : String = itemDetail.releaseDate.toString()
+            val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val cal : Calendar = Calendar.getInstance()
+            sdf.parse(date)?.let {
+                cal.time = it
+            }
+            val releaseYear = "( ${cal.get(Calendar.YEAR)} )"
+
+            // Get duration from Movies & Tv Show
+            val duration = "${itemDetail.duration} ${resources.getString(R.string.minutes)}"
+
+            tvTitle.text = itemDetail.name
             tvReleaseDate.text = releaseYear
             tvVote.text = itemDetail.voteAverage.toString()
             tvDuration.text = duration

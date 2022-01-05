@@ -16,13 +16,6 @@ import com.eone.submission3.ui.home.HomeCallback
 
 class TvShowAdapter(private val homeCallback: HomeCallback) :
     PagedListAdapter<TvShowEntity,TvShowAdapter.MovieViewHolder>(DIFF_CALLBACK) {
-//    private var listMovies = ArrayList<ItemListResponse>()
-
-//    fun setMovies(movies: List<ItemListResponse>?) {
-//        if (movies == null) return
-//        listMovies.clear()
-//        listMovies.addAll(movies)
-//    }
 
     inner class MovieViewHolder(private val binding: ListMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -57,7 +50,7 @@ class TvShowAdapter(private val homeCallback: HomeCallback) :
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowEntity>() {
             override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.tvshowId == newItem.tvshowId
             }
             override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
                 return oldItem == newItem

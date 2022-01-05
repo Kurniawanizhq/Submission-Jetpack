@@ -56,7 +56,7 @@ class ContentRepository(
             }
 
             override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean =
-                data.toString().isEmpty()
+                data.isNullOrEmpty()
 
             override fun createCall(): LiveData<ApiResponse<List<ItemListResponse>>> =
                 remoteRepository.getMovie()
@@ -66,7 +66,8 @@ class ContentRepository(
                 val movieList = ArrayList<MovieEntity>()
                 for (response in data) {
                     val movie = MovieEntity(
-                        id = response.id,
+                        id = null,
+                        movieId = response.id,
                         backdropPath = response.backdropPath,
                         genre = "",
                         overview = response.overview,
@@ -107,7 +108,8 @@ class ContentRepository(
                 }
 
                 val movie = MovieEntity(
-                    id = data.id,
+                    id = null,
+                    movieId = data.id,
                     backdropPath = data.backdropPath,
                     genre = genre.toString(),
                     overview = data.overview,
@@ -163,10 +165,12 @@ class ContentRepository(
                 val tvList = ArrayList<TvShowEntity>()
                 for (response in data) {
                     val tvshow = TvShowEntity(
-                        id = response.id,
+                        id = null,
+                        tvshowId = response.id,
                         backdropPath = response.backdropPath,
                         genre = "",
                         name = response.name,
+                        duration = "",
                         overview = response.overview,
                         posterPath = response.posterPath,
                         releaseDate = "",
@@ -203,12 +207,14 @@ class ContentRepository(
                 }
 
                 val tvshow = TvShowEntity(
-                    id = data.id,
+                    id = null,
+                    tvshowId = data.id,
                     backdropPath = data.backdropPath,
                     genre = genre.toString(),
                     overview = data.overview,
                     posterPath = data.posterPath,
                     name = data.title,
+                    duration = data.releaseTvDate,
                     releaseDate = data.releaseTvDate,
                     voteAverage = data.voteAverage,
                     isFavorite = false

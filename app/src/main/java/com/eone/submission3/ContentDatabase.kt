@@ -13,6 +13,7 @@ import com.eone.submission3.local.TvShowEntity
     exportSchema = false
 )
 abstract class ContentDatabase : RoomDatabase() {
+
     abstract fun contentDao(): ContentDao
 
     companion object {

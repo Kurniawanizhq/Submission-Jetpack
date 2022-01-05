@@ -9,7 +9,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.eone.submission3.FavoriteFragment
-import com.eone.submission3.FragmentHome
 import com.eone.submission3.R
 import com.eone.submission3.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -34,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
 //            R.id.nav_home,
 //            R.id.nav_favorite
 //        ).build()
-////
+
 //        setupActionBarWithNavController(navController,appBarConfiguration)
         binding.bottomNav.setupWithNavController(navController)
     }

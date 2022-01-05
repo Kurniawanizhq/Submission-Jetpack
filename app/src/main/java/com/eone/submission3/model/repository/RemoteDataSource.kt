@@ -3,7 +3,6 @@ package com.eone.submission3.model.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.eone.submission3.ApiResponse
 import com.eone.submission3.BuildConfig
 import com.eone.submission3.data.response.ItemDetailResponse
@@ -17,24 +16,21 @@ import retrofit2.Response
 
 class RemoteDataSource {
     private val apiKey = BuildConfig.API_KEY
-    private val retrofitConfig = ApiConfig
 
     companion object {
         private var INSTANCE: RemoteDataSource? = null
 
-        fun getInstance(): RemoteDataSource {
-            if (INSTANCE == null)
-                INSTANCE = RemoteDataSource()
-            return INSTANCE as RemoteDataSource
+        fun getInstance(): RemoteDataSource = INSTANCE ?: synchronized(this) {
+            INSTANCE ?: RemoteDataSource()
         }
     }
 
-    fun getMovie() : LiveData<ApiResponse<List<ItemListResponse>>>{
+    fun getMovie(): LiveData<ApiResponse<List<ItemListResponse>>> {
         EspressoIdlingResource.increment()
         val resultMovies = MutableLiveData<ApiResponse<List<ItemListResponse>>>()
         val client = ApiConfig.getApiServices().getMovies(apiKey)
 
-        client.enqueue(object : Callback<ItemResponse>{
+        client.enqueue(object : Callback<ItemResponse> {
             override fun onResponse(call: Call<ItemResponse>, response: Response<ItemResponse>) {
                 resultMovies.postValue(ApiResponse.success(response.body()?.result as List<ItemListResponse>))
                 EspressoIdlingResource.decrement()
@@ -49,16 +45,17 @@ class RemoteDataSource {
         return resultMovies
     }
 
-    fun getMovieDetail(movieId: Int,): LiveData<ApiResponse<ItemDetailResponse>> {
+    fun getMovieDetail(movieId: Int): LiveData<ApiResponse<ItemDetailResponse>> {
         EspressoIdlingResource.increment()
         val resultDetailMovie = MutableLiveData<ApiResponse<ItemDetailResponse>>()
-        val client = ApiConfig.getApiServices().getMovieDetail(movieId,apiKey)
+        val client = ApiConfig.getApiServices().getMovieDetail(movieId, apiKey)
 
-        client.enqueue(object : Callback<ItemDetailResponse>{
+        client.enqueue(object : Callback<ItemDetailResponse> {
             override fun onResponse(
                 call: Call<ItemDetailResponse>,
                 response: Response<ItemDetailResponse>
             ) {
+                println("WAW : ${response.body()}")
                 resultDetailMovie.postValue(ApiResponse.success(response.body() as ItemDetailResponse))
                 EspressoIdlingResource.decrement()
             }
@@ -67,17 +64,16 @@ class RemoteDataSource {
                 Log.e("RemoteDataSource", "getDetailMovies error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
-
         })
         return resultDetailMovie
     }
 
-    fun getTvShow() : LiveData<ApiResponse<List<ItemListResponse>>> {
+    fun getTvShow(): LiveData<ApiResponse<List<ItemListResponse>>> {
         EspressoIdlingResource.increment()
         val resultTvShows = MutableLiveData<ApiResponse<List<ItemListResponse>>>()
         val client = ApiConfig.getApiServices().getTvShows(apiKey)
 
-        client.enqueue(object : Callback<ItemResponse>{
+        client.enqueue(object : Callback<ItemResponse> {
             override fun onResponse(call: Call<ItemResponse>, response: Response<ItemResponse>) {
                 resultTvShows.postValue(ApiResponse.success(response.body()?.result as List<ItemListResponse>))
                 EspressoIdlingResource.decrement()
@@ -92,12 +88,12 @@ class RemoteDataSource {
         return resultTvShows
     }
 
-    fun getTvShowDetail(tvShowId : Int) : LiveData<ApiResponse<ItemDetailResponse>>{
+    fun getTvShowDetail(tvShowId: Int): LiveData<ApiResponse<ItemDetailResponse>> {
         EspressoIdlingResource.increment()
         val resultDetailTvShow = MutableLiveData<ApiResponse<ItemDetailResponse>>()
-        val client = ApiConfig.getApiServices().getMovieDetail(tvShowId,apiKey)
+        val client = ApiConfig.getApiServices().getMovieDetail(tvShowId, apiKey)
 
-        client.enqueue(object : Callback<ItemDetailResponse>{
+        client.enqueue(object : Callback<ItemDetailResponse> {
             override fun onResponse(
                 call: Call<ItemDetailResponse>,
                 response: Response<ItemDetailResponse>

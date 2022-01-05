@@ -18,7 +18,7 @@ data class TvShowEntity(
 
     @NonNull
     @ColumnInfo(name = "tvshow_id")
-    val movieId : Int = 0 ,
+    val tvshowId : Int = 0 ,
 
     @ColumnInfo(name = "tvshow_poster")
     val posterPath: String? = null,
@@ -28,6 +28,9 @@ data class TvShowEntity(
 
     @ColumnInfo(name = "tv_name")
     val name: String? = null,
+
+    @ColumnInfo(name = "duration")
+    val duration : String? = null,
 
     @ColumnInfo(name = "overview")
     val overview: String? = null,
