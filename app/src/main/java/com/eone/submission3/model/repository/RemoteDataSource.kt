@@ -37,6 +37,7 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
+                resultMovies.postValue(ApiResponse.error(t.message.toString(),mutableListOf()))
                 Log.e("RemoteDataSource", "getMovies error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
@@ -55,12 +56,12 @@ class RemoteDataSource {
                 call: Call<ItemDetailResponse>,
                 response: Response<ItemDetailResponse>
             ) {
-                println("WAW : ${response.body()}")
                 resultDetailMovie.postValue(ApiResponse.success(response.body() as ItemDetailResponse))
                 EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
+
                 Log.e("RemoteDataSource", "getDetailMovies error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
@@ -80,6 +81,7 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<ItemResponse>, t: Throwable) {
+                resultTvShows.postValue(ApiResponse.error(t.message.toString(), mutableListOf()))
                 Log.e("RemoteDataSource", "getTvShow error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }

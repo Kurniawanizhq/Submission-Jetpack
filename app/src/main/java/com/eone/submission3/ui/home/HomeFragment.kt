@@ -23,7 +23,9 @@ import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.ui.adapter.HomePagerAdapter
 import com.eone.submission3.utils.ViewModelFactory
+import com.eone.submission3.vo.Status
 import com.google.android.material.tabs.TabLayoutMediator
+import com.shashank.sony.fancytoastlib.FancyToast
 
 class HomeFragment : Fragment() {
 
@@ -61,16 +63,39 @@ class HomeFragment : Fragment() {
                 when (position) {
                     0 -> {
                         viewModel.getMovies().observe(viewLifecycleOwner, {
-                            it.data?.let { it1 -> bigPosterMovies(it1) }
-                            binding.cvPoster.pageCount = it.data?.size!!
-                            listMovies = it.data
+                            when(it.status){
+                                Status.LOADING ->{
+
+                                }
+                                Status.SUCCES ->{
+                                    if (it.data != null){
+                                        bigPosterMovies(it.data) }
+                                        binding.cvPoster.pageCount = it.data?.size!!
+                                        listMovies = it.data
+                                    }
+
+                                Status.ERROR ->{
+                                    FancyToast.makeText(context,"Error boys",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show()
+                                }
+                            }
+
                         })
                     }
                     1 -> {
                         viewModel.getTvShow().observe(viewLifecycleOwner, {
-                            it.data?.let { it1 -> bigPosterTvshows(it1) }
-                            binding.cvPoster.pageCount = it.data?.size!!
-                            listTvshow = it.data
+                            when(it.status){
+                                Status.LOADING ->{
+
+                                }
+                                Status.SUCCES ->{
+                                    it.data?.let { it1 -> bigPosterTvshows(it1) }
+                                    binding.cvPoster.pageCount = it.data?.size!!
+                                    listTvshow = it.data
+                                }
+                                Status.ERROR ->{
+                                    FancyToast.makeText(context,"Error boys",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show()
+                                }
+                            }
                         })
                     }
                 }
