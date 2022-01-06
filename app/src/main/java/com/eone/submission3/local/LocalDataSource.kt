@@ -39,4 +39,5 @@ class LocalDataSource(private val contentDao: ContentDao) {
         tvShowEntity.isFavorite = !tvShowEntity.isFavorite
         contentDao.updateTvShow(tvShowEntity)
     }
+
 }
