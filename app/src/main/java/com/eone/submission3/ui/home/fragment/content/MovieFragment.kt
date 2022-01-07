@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,8 @@ import com.eone.submission3.ui.home.HomeCallback
 import com.eone.submission3.ui.home.HomeViewModel
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Resource
+import com.eone.submission3.vo.Status
+import com.shashank.sony.fancytoastlib.FancyToast
 
 
 class MovieFragment : Fragment(), HomeCallback {
@@ -37,14 +40,35 @@ class MovieFragment : Fragment(), HomeCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
-            showProgressBar(true)
             val viewModelFactory = ViewModelFactory.getInstance(requireContext())
 
             val viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+
             viewModel.getMovies().observe(viewLifecycleOwner, {
-                showProgressBar(false)
-                setLayout(it)
-                println("CEK DATA ${it.data?.get(0)?.movieId}")
+                if (it != null) {
+                    when (it.status) {
+                        Status.LOADING -> {
+                            showProgressBar(true)
+                        }
+                        Status.SUCCES -> {
+                            if (it.data != null) {
+                                showProgressBar(false)
+                                setLayout(it)
+                            }
+                        }
+                        Status.ERROR -> {
+                            showProgressBar(false)
+                            FancyToast.makeText(
+                                context,
+                                "Error memuat data",
+                                Toast.LENGTH_SHORT,
+                                FancyToast.ERROR,
+                                false
+                            ).show()
+                        }
+                    }
+
+                }
             })
         }
     }
@@ -58,7 +82,6 @@ class MovieFragment : Fragment(), HomeCallback {
                 when (adapter) {
                     is HomeAdapter -> {
                         adapter.submitList(data.data)
-                        adapter.notifyDataSetChanged()
                     }
                 }
 

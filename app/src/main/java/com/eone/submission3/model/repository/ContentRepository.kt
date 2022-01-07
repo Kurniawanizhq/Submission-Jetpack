@@ -28,17 +28,8 @@ class ContentRepository(
             remoteRepository: RemoteDataSource,
             localDataSource: LocalDataSource,
             appExecutors: AppExecutors
-        ): ContentRepository {
-            if (INSTANCE == null) {
-                synchronized(this) {
-                    if (INSTANCE == null) INSTANCE =
-                        ContentRepository(
-                            remoteRepository,
-                            localDataSource, appExecutors
-                        )
-                }
-            }
-            return INSTANCE as ContentRepository
+        ): ContentRepository = INSTANCE ?: synchronized(this){
+            INSTANCE ?: ContentRepository(remoteRepository,localDataSource,appExecutors)
         }
     }
 

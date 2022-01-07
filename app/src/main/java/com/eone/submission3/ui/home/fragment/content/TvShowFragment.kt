@@ -20,6 +20,8 @@ import com.eone.submission3.ui.home.HomeCallback
 import com.eone.submission3.ui.home.HomeViewModel
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Resource
+import com.eone.submission3.vo.Status
+import com.shashank.sony.fancytoastlib.FancyToast
 
 class TvShowFragment : Fragment(), HomeCallback {
     private var _binding: FragmentTvShowBinding? = null
@@ -36,15 +38,27 @@ class TvShowFragment : Fragment(), HomeCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
-            showProgressBar(true)
-            val viewModelFactory = ViewModelFactory.getInstance(context as Context)
+            val viewModelFactory = ViewModelFactory.getInstance(requireContext())
             val viewModel = ViewModelProvider(
                 this,
                 viewModelFactory
             )[HomeViewModel::class.java]
             viewModel.getTvShow().observe(viewLifecycleOwner,{
-                showProgressBar(false)
-                setLayout(it)
+                when(it.status){
+                    Status.LOADING ->{
+                        showProgressBar(true)
+                    }
+                    Status.SUCCES ->{
+                        showProgressBar(false)
+                        setLayout(it)
+                    }
+                    Status.ERROR ->{
+                        showProgressBar(false)
+                        FancyToast.makeText(context,"Error Load Data",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show()
+                    }
+                }
+
+
             })
         }
     }
