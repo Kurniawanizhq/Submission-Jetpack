@@ -84,8 +84,7 @@ class ContentRepository(
 
             override fun shouldFetch(data: MovieEntity?): Boolean = data != null
 
-            override fun createCall(): LiveData<ApiResponse<ItemDetailResponse>> =
-                remoteRepository.getMovieDetail(movieId)
+            override fun createCall(): LiveData<ApiResponse<ItemDetailResponse>> = remoteRepository.getMovieDetail(movieId)
 
             override fun saveCallResult(data: ItemDetailResponse) {
                 val genre = StringBuilder().append("")
@@ -111,6 +110,7 @@ class ContentRepository(
                     voteAverage = data.voteAverage,
                     isFavorite = false
                 )
+                println("RESULT : $movie")
                 localDataSource.setFavoriteMovie(movie, false)
             }
 

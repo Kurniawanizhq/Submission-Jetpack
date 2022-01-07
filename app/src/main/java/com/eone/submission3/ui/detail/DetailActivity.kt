@@ -62,7 +62,7 @@ class DetailActivity : AppCompatActivity() {
                             detailMovie(it.data)
                         }
                     }
-                    Status.ERROR ->{
+                    Status.ERROR -> {
                         showProgressBar(false)
                         FancyToast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
                     }
@@ -92,7 +92,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun detailMovie(itemDetail : MovieEntity) {
-
+            println("ITEM : $itemDetail")
         binding.apply {
 
             //Get Genre Text

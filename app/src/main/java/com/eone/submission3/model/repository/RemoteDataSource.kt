@@ -61,7 +61,9 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
-
+                resultDetailMovie.postValue(ApiResponse.error(t.message.toString(),
+                    ItemDetailResponse("","", listOf(),0,"",0,"null","null",0.0, listOf(),"null","null")
+                ))
                 Log.e("RemoteDataSource", "getDetailMovies error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
