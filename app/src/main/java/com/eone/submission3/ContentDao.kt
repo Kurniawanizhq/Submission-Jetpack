@@ -14,22 +14,22 @@ interface ContentDao {
     @Query("SELECT * FROM tab_tvshow")
     fun getTvShow(): DataSource.Factory<Int, TvShowEntity>
 
-    @Query("SELECT * FROM tab_movie WHERE movie_id = :movieId and id = null")
+    @Query("SELECT * FROM tab_movie WHERE movie_id = :movieId")
     fun getDetailMovieById(movieId: Int): LiveData<MovieEntity>
 
-    @Query("SELECT * FROM tab_tvshow WHERE tvshow_id = :tvshowId")
+    @Query("SELECT * FROM tab_tvshow WHERE tvshow_id = :tvshowId and id = null")
     fun getDetailTvShowById(tvshowId: Int): LiveData<TvShowEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE, entity = MovieEntity::class)
-    fun insertMovies(movies: List<MovieEntity>)
+    fun insertMovies(movies : List<MovieEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE, entity = TvShowEntity::class)
-    fun insertTvShow(tvshow: List<TvShowEntity>)
+    fun insertTvShow(tvshows : List<TvShowEntity>)
 
-    @Update
-    fun updateMovie(movie: MovieEntity)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateMovie(movie : MovieEntity)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateTvShow(tvshow: TvShowEntity)
 
     @Query("SELECT * FROM tab_movie WHERE is_favorite = 1")

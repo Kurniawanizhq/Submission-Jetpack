@@ -35,7 +35,7 @@ data class ItemDetailResponse(
     val epsDuration: List<Int>,
 
     @SerializedName("first_air_date")
-    val releaseTvDate: String?,
+    val releaseTvDate: String,
 
     @SerializedName("name")
     val name: String?,

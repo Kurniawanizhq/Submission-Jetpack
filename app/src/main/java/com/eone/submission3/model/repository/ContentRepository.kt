@@ -46,8 +46,8 @@ class ContentRepository(
                 return LivePagedListBuilder(localDataSource.getMovies(), config).build()
             }
 
-            override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean =
-                data.isNullOrEmpty()
+            override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean = false
+//                data.isNullOrEmpty()
 
             override fun createCall(): LiveData<ApiResponse<List<ItemListResponse>>> =
                 remoteRepository.getMovie()
@@ -57,7 +57,7 @@ class ContentRepository(
                 val movieList = ArrayList<MovieEntity>()
                 for (response in data) {
                     val movie = MovieEntity(
-                        id = null,
+//                        id = null,
                         movieId = response.id,
                         backdropPath = response.backdropPath,
                         genre = "",
@@ -98,7 +98,7 @@ class ContentRepository(
                 }
 
                 val movie = MovieEntity(
-                    id = null,
+//                    id = null,
                     movieId = data.id,
                     backdropPath = data.backdropPath,
                     genre = genre.toString(),
@@ -210,6 +210,7 @@ class ContentRepository(
                     voteAverage = data.voteAverage,
                     isFavorite = false
                 )
+                println("data tv : $tvshow")
                 localDataSource.setFavoriteTvShow(tvshow, false)
             }
 

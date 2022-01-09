@@ -12,13 +12,13 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class MovieEntity(
 
-    @PrimaryKey(autoGenerate = true)
-    @SerializedName("id")
-    var id: Int? = null,
-
+//    @PrimaryKey(autoGenerate = true)
+//    @SerializedName("id")
+//    var id: Int? = null,
+    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "movie_id")
-    var movieId : Int = 0 ,
+    var movieId: Int = 0,
 
     @ColumnInfo(name = "movie_poster")
     var posterPath: String? = null,
@@ -33,18 +33,18 @@ data class MovieEntity(
     var overview: String? = null,
 
     @ColumnInfo(name = "release_date")
-    var releaseDate : String? = null,
+    var releaseDate: String? = null,
 
     @ColumnInfo(name = "duration")
-    var duration : String? = null,
+    var duration: String? = null,
 
     @ColumnInfo(name = "genre")
-    var genre : String? = null,
+    var genre: String? = null,
 
     @ColumnInfo(name = "vote_average")
-    var voteAverage : Double = 0.0,
+    var voteAverage: Double = 0.0,
 
     @NonNull
     @ColumnInfo(name = "is_favorite")
-    var isFavorite : Boolean = false
+    var isFavorite: Boolean = false
 ) : Parcelable

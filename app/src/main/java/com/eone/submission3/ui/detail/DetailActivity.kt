@@ -47,9 +47,8 @@ class DetailActivity : AppCompatActivity() {
         val id = intent.getIntExtra(EXTRA_ID, 0)
         val type = intent.getStringExtra(EXTRA_TYPE)
 
-        println("ID BOY $id")
-
         if (type.equals("MOVIE", ignoreCase = true)) {
+            println("dijalankan")
             binding.collapsingDetail.title = "Detail Movie"
             viewModel.getMovieDetail(id).observe(this, {
                 when(it.status){
@@ -63,6 +62,7 @@ class DetailActivity : AppCompatActivity() {
                         }
                     }
                     Status.ERROR -> {
+                        println("Load error")
                         showProgressBar(false)
                         FancyToast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
                     }

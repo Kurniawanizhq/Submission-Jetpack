@@ -102,6 +102,7 @@ class RemoteDataSource {
                 call: Call<ItemDetailResponse>,
                 response: Response<ItemDetailResponse>
             ) {
+                println("data dari api : ${response.body()}")
                 resultDetailTvShow.postValue(ApiResponse.success(response.body() as ItemDetailResponse))
                 EspressoIdlingResource.decrement()
             }

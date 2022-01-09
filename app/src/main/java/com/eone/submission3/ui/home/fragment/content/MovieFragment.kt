@@ -103,8 +103,7 @@ class MovieFragment : Fragment(), HomeCallback {
         }
     }
 
-    override fun onItemClickedMovie(data: MovieEntity) {
-        println(data.movieId)
+    override fun onItemClickedMovie(data: MovieEntity){
         startActivity(
             Intent(context, DetailActivity::class.java)
                 .putExtra(DetailActivity.EXTRA_ID, data.movieId)
