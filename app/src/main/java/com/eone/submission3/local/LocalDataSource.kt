@@ -2,9 +2,11 @@ package com.eone.submission3.local
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import com.eone.submission3.ContentDao
+import javax.inject.Inject
 
-class LocalDataSource(private val contentDao: ContentDao) {
+class LocalDataSource @Inject constructor(private val contentDao: ContentDao){
 
     companion object {
         private var INSTANCE: LocalDataSource? = null
@@ -13,7 +15,7 @@ class LocalDataSource(private val contentDao: ContentDao) {
             INSTANCE ?: LocalDataSource(contentDao)
     }
 
-    fun getMovies(): DataSource.Factory<Int, MovieEntity> = contentDao.getMovies()
+    fun getMovies(): PagingSource<Int, MovieEntity> =contentDao.getMovies()
 
     fun getTvShows(): DataSource.Factory<Int, TvShowEntity> = contentDao.getTvShow()
 

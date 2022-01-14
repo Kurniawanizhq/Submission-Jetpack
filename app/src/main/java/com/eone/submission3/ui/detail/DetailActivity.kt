@@ -48,17 +48,19 @@ class DetailActivity : AppCompatActivity() {
         val type = intent.getStringExtra(EXTRA_TYPE)
 
         if (type.equals("MOVIE", ignoreCase = true)) {
-            println("dijalankan")
             binding.collapsingDetail.title = "Detail Movie"
-            viewModel.getMovieDetail(id).observe(this, {
-                when(it.status){
+            viewModel.getMovieDetail(id).observe(this, { resource ->
+                when(resource.status){
                     Status.LOADING ->  showProgressBar(true)
                     Status.SUCCES -> {
-                        if (it.data != null){
+                        if (resource.data != null){
                             showProgressBar(false)
-//                            val state = it.data.isFavorite
-                            viewModel.setFavoriteMovie(it.data)
-                            detailMovie(it.data)
+//                            val state = resource.data.isFavorite
+                            viewModel.setFavoriteMovie(resource.data)
+                            detailMovie(resource.data)
+                        }
+                        binding.fabAddToFavorite.setOnClickListener {
+                            setToFavorite(resource)
                         }
                     }
                     Status.ERROR -> {
@@ -68,6 +70,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
             })
+
         } else if (type.equals("TV_SHOW", ignoreCase = true)) {
             binding.collapsingDetail.title = "Detail Tv Show"
             viewModel.getTvShowDetail(id).observe(this, {
@@ -181,6 +184,27 @@ class DetailActivity : AppCompatActivity() {
 
     private fun replaceList(text: String): String {
         return text.replace("[", "").replace("]", "")
+    }
+
+    private fun setToFavorite(data : Any?) {
+        when(data){
+            is MovieEntity ->{
+                if (data.isFavorite){
+                    FancyToast.makeText(this,"${data.title} Removed from Favorite",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show()
+                }else{
+                    FancyToast.makeText(this,"${data.title} Added from Favorite",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,false).show()
+                }
+                viewModel.setFavoriteMovie(data)
+            }
+            is TvShowEntity ->{
+                if (data.isFavorite){
+                    FancyToast.makeText(this,"${data.name} Removed from Favorite",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show()
+                }else{
+                    FancyToast.makeText(this,"${data.name} Added from Favorite",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,false).show()
+                }
+                viewModel.setFavoriteTvShow(data)
+            }
+        }
     }
 
     private fun showProgressBar(state: Boolean) {

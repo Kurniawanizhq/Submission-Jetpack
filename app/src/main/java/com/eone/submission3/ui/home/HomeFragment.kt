@@ -16,20 +16,26 @@ import androidx.paging.PagedList
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.eone.submission3.BuildConfig
+import com.eone.submission3.ContentDao
 import com.eone.submission3.R
 import com.eone.submission3.databinding.FragmentHomeBinding
+import com.eone.submission3.local.LocalDataSource
 import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.ui.adapter.HomePagerAdapter
+import com.eone.submission3.ui.home.fragment.content.MovieFragment
+import com.eone.submission3.ui.home.fragment.content.TvShowFragment
+import com.eone.submission3.ui.home.fragment.favorite.FavoriteMovieFragment
+import com.eone.submission3.ui.home.fragment.favorite.FavoriteTvShowFragment
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Status
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shashank.sony.fancytoastlib.FancyToast
 
-class HomeFragment : Fragment() {
+class HomeFragment: Fragment() {
 
-    private lateinit var listMovies: PagedList<MovieEntity>
+    private lateinit var listMovies: List<MovieEntity>
     private lateinit var listTvshow: PagedList<TvShowEntity>
 
     private var _binding: FragmentHomeBinding? = null
@@ -51,7 +57,8 @@ class HomeFragment : Fragment() {
             viewModelFactory
         )[HomeViewModel::class.java]
 
-        val viewPagerAdapter = HomePagerAdapter(activity as AppCompatActivity)
+
+        val viewPagerAdapter = HomePagerAdapter(fragmentList,requireActivity().supportFragmentManager,lifecycle)
         binding.viewPager.adapter = viewPagerAdapter
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -68,10 +75,10 @@ class HomeFragment : Fragment() {
 
                                 }
                                 Status.SUCCES ->{
-                                    if (it.data != null){
-                                        bigPosterMovies(it.data) }
-                                        binding.cvPoster.pageCount = it.data?.size!!
-                                        listMovies = it.data
+//                                    if (it.data != null){
+//                                        bigPosterMovies(it.data) }
+//                                        binding.cvPoster.pageCount = it.data?.size!!
+//                                        listMovies = it.data
                                     }
 
                                 Status.ERROR ->{
@@ -110,7 +117,7 @@ class HomeFragment : Fragment() {
             }
             startActivity(
                 Intent(context, DetailActivity::class.java)
-                    .putExtra(DetailActivity.EXTRA_ID, listMovies[it]?.movieId)
+                    .putExtra(DetailActivity.EXTRA_ID, listMovies[it].movieId)
                     .putExtra(DetailActivity.EXTRA_TYPE, type)
             )
         }
@@ -125,10 +132,10 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun bigPosterMovies(dataMovie: PagedList<MovieEntity>) {
+    private fun bigPosterMovies(dataMovie: List<MovieEntity>) {
         binding.cvPoster.setImageListener { position, imageView ->
             Glide.with(this)
-                .load(BuildConfig.IMAGE_URL + dataMovie[position]?.backdropPath)
+                .load(BuildConfig.IMAGE_URL + dataMovie[position].backdropPath)
                 .placeholder(R.drawable.picture_placeholder)
                 .error(BuildConfig.IMAGE_URL)
                 .into(imageView)
@@ -146,7 +153,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        @StringRes
+        private val fragmentList = listOf(MovieFragment(), TvShowFragment())
         private val TAB_TITLES = intArrayOf(R.string.movies, R.string.tvShow)
     }
 }

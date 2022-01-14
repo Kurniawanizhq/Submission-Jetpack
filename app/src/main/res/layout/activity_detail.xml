@@ -246,7 +246,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3"
                     tools:text="Gellert Grindelwald has escaped imprisonment and has begun gathering followers to his cause—elevating wizards above all non-magical beings. The only one capable of putting a stop to him is the wizard he once called his closest friend, Albus Dumbledore. However, Dumbledore will need to seek help from the wizard who had thwarted Grindelwald once before, his former student Newt Scamander, who agrees to help, unaware of the dangers that lie ahead. Lines are drawn as love and loyalty are tested, even among the truest friends and family, in an increasingly divided wizarding world." />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add_to_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/add_to_favorite"
+                android:elevation="8dp"
+                android:src="@drawable/ic_favorite_black"
+                app:backgroundTint="@color/colorAccent"
+                app:layout_anchor="@id/cv_poster"
+                app:layout_anchorGravity="top|right|end"
+                app:layout_constraintBottom_toBottomOf="@+id/cv_poster"
+                app:layout_constraintStart_toEndOf="@+id/cv_poster"
+                app:layout_constraintTop_toTopOf="@+id/cv_poster"
+                tools:ignore="RtlHardcoded" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

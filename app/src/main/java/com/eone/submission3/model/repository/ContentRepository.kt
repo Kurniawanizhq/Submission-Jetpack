@@ -1,8 +1,8 @@
 package com.eone.submission3.model.repository
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.paging.*
 import com.eone.submission3.ApiResponse
 import com.eone.submission3.AppExecutors
 import com.eone.submission3.NetworkBoundResource
@@ -13,6 +13,7 @@ import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.model.source.ContentDataSource
 import com.eone.submission3.vo.Resource
+import kotlinx.coroutines.flow.Flow
 
 class ContentRepository(
     private val remoteRepository: RemoteDataSource,
@@ -33,21 +34,30 @@ class ContentRepository(
         }
     }
 
-    override fun getMovie(): LiveData<Resource<PagedList<MovieEntity>>> {
+    override fun getMovie(): LiveData<Resource<PagingData<MovieEntity>>> {
         return object :
-            NetworkBoundResource<PagedList<MovieEntity>, List<ItemListResponse>>(appExecutors) {
-            override fun loadFromDB(): LiveData<PagedList<MovieEntity>> {
-                val config = PagedList.Config.Builder()
-                    .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(4)
-                    .setPageSize(4)
-                    .build()
+            NetworkBoundResource<PagingData<MovieEntity>, List<ItemListResponse>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagingData<MovieEntity>> {
+//                val config = PagedList.Config.Builder()
+//                    .setEnablePlaceholders(false)
+//                    .setInitialLoadSizeHint(4)
+//                    .setPageSize(4)
+//                    .build()
+//                println("NGAMBIL DATABASE")
 
-                return LivePagedListBuilder(localDataSource.getMovies(), config).build()
+//                return LivePagedListBuilder(localDataSource.getMovies(), config).build()
+
+                 val movieConfig = PagingConfig(pageSize = 5)
+                val moviePagingFactory = {
+                    localDataSource.getMovies()
+                }
+                print("DATA LOKAL ${Pager(config = movieConfig, pagingSourceFactory = moviePagingFactory).flow}")
+
+                return Pager(config = movieConfig, pagingSourceFactory = moviePagingFactory).liveData
             }
 
-            override fun shouldFetch(data: PagedList<MovieEntity>?): Boolean = false
-//                data.isNullOrEmpty()
+            override fun shouldFetch(data: PagingData<MovieEntity>?): Boolean = data != null
+
 
             override fun createCall(): LiveData<ApiResponse<List<ItemListResponse>>> =
                 remoteRepository.getMovie()
@@ -55,24 +65,26 @@ class ContentRepository(
 
             override fun saveCallResult(data: List<ItemListResponse>) {
                 val movieList = ArrayList<MovieEntity>()
-                for (response in data) {
+                for (item in data) {
                     val movie = MovieEntity(
-//                        id = null,
-                        movieId = response.id,
-                        backdropPath = response.backdropPath,
+                        movieId = item.id,
+                        backdropPath = item.backdropPath ?: "",
                         genre = "",
-                        overview = response.overview,
-                        posterPath = response.posterPath,
-                        title = response.title,
+                        overview = item.overview ?: "",
+                        posterPath = item.posterPath ?: "",
+                        title = item.title ?:"",
                         duration = "",
                         releaseDate = "",
                         voteAverage = 0.0,
                         isFavorite = false
                     )
                     movieList.add(movie)
-                }
+            }
+//                println("insert movie $movieList")
                 localDataSource.insertMovies(movieList)
             }
+
+
         }.asLiveData()
     }
 
@@ -82,7 +94,7 @@ class ContentRepository(
             override fun loadFromDB(): LiveData<MovieEntity> =
                 localDataSource.getDetailMovie(movieId)
 
-            override fun shouldFetch(data: MovieEntity?): Boolean = data != null
+            override fun shouldFetch(data: MovieEntity?): Boolean = data != null && data.duration == "" && data.voteAverage == 0.0
 
             override fun createCall(): LiveData<ApiResponse<ItemDetailResponse>> = remoteRepository.getMovieDetail(movieId)
 
@@ -98,15 +110,14 @@ class ContentRepository(
                 }
 
                 val movie = MovieEntity(
-//                    id = null,
                     movieId = data.id,
                     backdropPath = data.backdropPath,
                     genre = genre.toString(),
-                    overview = data.overview,
+                    overview = data.overview ?: "",
                     posterPath = data.posterPath,
-                    title = data.title,
+                    title = data.title ?:"",
                     duration = data.duration.toString(),
-                    releaseDate = data.releaseMovieDate,
+                    releaseDate = data.releaseMovieDate ?:"",
                     voteAverage = data.voteAverage,
                     isFavorite = false
                 )
@@ -181,7 +192,7 @@ class ContentRepository(
             override fun loadFromDB(): LiveData<TvShowEntity> =
                 localDataSource.getDetailTvShow(tvShowId)
 
-            override fun shouldFetch(data: TvShowEntity?): Boolean = data != null
+            override fun shouldFetch(data: TvShowEntity?): Boolean = data != null && data.duration == "" && data.voteAverage == 0.0
 
             override fun createCall(): LiveData<ApiResponse<ItemDetailResponse>> =
                 remoteRepository.getTvShowDetail(tvShowId)

@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.PagedList
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.Pager
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eone.submission3.databinding.FragmentMovieBinding
 import com.eone.submission3.local.MovieEntity
@@ -22,6 +24,7 @@ import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Resource
 import com.eone.submission3.vo.Status
 import com.shashank.sony.fancytoastlib.FancyToast
+import kotlinx.coroutines.launch
 
 
 class MovieFragment : Fragment(), HomeCallback {
@@ -53,7 +56,9 @@ class MovieFragment : Fragment(), HomeCallback {
                         Status.SUCCES -> {
                             if (it.data != null) {
                                 showProgressBar(false)
-                                setLayout(it)
+                                viewLifecycleOwner.lifecycleScope.launch {
+                                    setLayout(it)
+                                }
                             }
                         }
                         Status.ERROR -> {
@@ -73,7 +78,7 @@ class MovieFragment : Fragment(), HomeCallback {
         }
     }
 
-    private fun setLayout(data: Resource<PagedList<MovieEntity>>) {
+    private suspend fun setLayout(data: Resource<PagingData<MovieEntity>>) {
         binding.rvMovie.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = HomeAdapter(this@MovieFragment)
@@ -81,7 +86,7 @@ class MovieFragment : Fragment(), HomeCallback {
             it.adapter.let { adapter ->
                 when (adapter) {
                     is HomeAdapter -> {
-                        adapter.submitList(data.data)
+                        data.data?.let { it1 -> adapter.submitData(it1) }
                     }
                 }
 
@@ -103,7 +108,7 @@ class MovieFragment : Fragment(), HomeCallback {
         }
     }
 
-    override fun onItemClickedMovie(data: MovieEntity){
+    override fun onItemClickedMovie(data: MovieEntity) {
         startActivity(
             Intent(context, DetailActivity::class.java)
                 .putExtra(DetailActivity.EXTRA_ID, data.movieId)

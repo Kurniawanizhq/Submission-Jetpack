@@ -7,6 +7,7 @@ import com.eone.submission3.di.Injection
 import com.eone.submission3.model.repository.ContentRepository
 import com.eone.submission3.ui.detail.DetailViewModel
 import com.eone.submission3.ui.home.HomeViewModel
+import com.eone.submission3.ui.home.fragment.favorite.FavoriteViewModel
 
 class ViewModelFactory private constructor(private val contentRepository: ContentRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -25,6 +26,8 @@ class ViewModelFactory private constructor(private val contentRepository: Conten
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(contentRepository) as T
 
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(contentRepository) as T
+
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> FavoriteViewModel(contentRepository) as T
             else -> {
                 throw Throwable("Unknown ViewModel class: " + modelClass.name)
             }

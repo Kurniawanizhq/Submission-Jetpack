@@ -3,14 +3,12 @@ package com.eone.submission3.model.source
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.PagingData
-import com.eone.submission3.data.response.ItemDetailResponse
-import com.eone.submission3.data.response.ItemListResponse
 import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.vo.Resource
 
 interface ContentDataSource {
-    fun getMovie() : LiveData<Resource<PagedList<MovieEntity>>>
+    fun getMovie() : LiveData<Resource<PagingData<MovieEntity>>>
     fun getMovieDetail(movieId : Int): LiveData<Resource<MovieEntity>>
     fun getTvShow() : LiveData<Resource<PagedList<TvShowEntity>>>
     fun getTvShowDetail(tvShowId: Int) : LiveData<Resource<TvShowEntity>>
