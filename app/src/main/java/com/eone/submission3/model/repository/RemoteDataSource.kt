@@ -61,9 +61,7 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
-                resultDetailMovie.postValue(ApiResponse.error(t.message.toString(),
-                    ItemDetailResponse("","", listOf(),0,"",0,"null","null",0.0, listOf(),"null","null")
-                ))
+                resultDetailMovie.postValue(ApiResponse.error(t.message.toString(), ItemDetailResponse("","", listOf(),0,"",0,"","",0.0, listOf(),"","")))
                 Log.e("RemoteDataSource", "getDetailMovies error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
@@ -95,7 +93,7 @@ class RemoteDataSource {
     fun getTvShowDetail(tvShowId: Int): LiveData<ApiResponse<ItemDetailResponse>> {
         EspressoIdlingResource.increment()
         val resultDetailTvShow = MutableLiveData<ApiResponse<ItemDetailResponse>>()
-        val client = ApiConfig.getApiServices().getMovieDetail(tvShowId, apiKey)
+        val client = ApiConfig.getApiServices().getTvShowDetail(tvShowId, apiKey)
 
         client.enqueue(object : Callback<ItemDetailResponse> {
             override fun onResponse(
@@ -108,6 +106,7 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<ItemDetailResponse>, t: Throwable) {
+                resultDetailTvShow.postValue(ApiResponse.error(t.message.toString(), ItemDetailResponse("","", listOf(),0,"",0,"","",0.0, listOf(),"","")))
                 Log.e("RemoteDataSource", "getDetailTvShow error : ${t.message}")
                 EspressoIdlingResource.decrement()
             }

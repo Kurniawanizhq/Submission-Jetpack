@@ -14,8 +14,8 @@ import com.eone.submission3.databinding.ListMovieBinding
 import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.ui.home.HomeCallback
 
-class TvShowAdapter(private val homeCallback: HomeCallback) :
-    PagedListAdapter<TvShowEntity,TvShowAdapter.MovieViewHolder>(DIFF_CALLBACK) {
+class TvShowAdapter(private val tvShowCallback: HomeCallback.OnItemClickedTvshow) :
+    PagingDataAdapter<TvShowEntity,TvShowAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
     inner class MovieViewHolder(private val binding: ListMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -23,7 +23,7 @@ class TvShowAdapter(private val homeCallback: HomeCallback) :
             binding.apply {
                 tvTitleHome.text = movie.name
                 itemCard.setOnClickListener {
-                    homeCallback.onItemClickedTvshow(movie)
+                    tvShowCallback.onItemClickedTvshow(movie)
                 }
                 Glide.with(itemView.context)
                     .load(BuildConfig.IMAGE_URL + movie.posterPath)

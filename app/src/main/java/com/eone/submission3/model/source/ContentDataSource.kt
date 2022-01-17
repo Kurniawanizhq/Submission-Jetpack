@@ -10,10 +10,10 @@ import com.eone.submission3.vo.Resource
 interface ContentDataSource {
     fun getMovie() : LiveData<Resource<PagingData<MovieEntity>>>
     fun getMovieDetail(movieId : Int): LiveData<Resource<MovieEntity>>
-    fun getTvShow() : LiveData<Resource<PagedList<TvShowEntity>>>
+    fun getTvShow() : LiveData<Resource<PagingData<TvShowEntity>>>
     fun getTvShowDetail(tvShowId: Int) : LiveData<Resource<TvShowEntity>>
-    fun getFavoriteMovies() : LiveData<PagedList<MovieEntity>>
+    fun getFavoriteMovies() : LiveData<PagingData<MovieEntity>>
     fun setFavoriteMovie (movie : MovieEntity, state : Boolean)
     fun setFavoriteTvShow (tvShow : TvShowEntity, state : Boolean)
-    fun getFavoriteTvShow() : LiveData<PagedList<TvShowEntity>>
+    fun getFavoriteTvShow() : LiveData<PagingData<TvShowEntity>>
 }

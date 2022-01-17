@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.eone.submission3.databinding.FragmentFavoriteBinding
+import com.eone.submission3.ui.adapter.FavoritePagerAdapter
 import com.eone.submission3.ui.adapter.HomePagerAdapter
 import com.eone.submission3.ui.home.fragment.favorite.FavoriteMovieFragment
 import com.eone.submission3.ui.home.fragment.favorite.FavoriteTvShowFragment
@@ -36,7 +37,7 @@ class FavoriteFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
 
         binding.apply {
-            vpFavorite.adapter = HomePagerAdapter(fragmentList,requireActivity().supportFragmentManager,lifecycle)
+            vpFavorite.adapter = FavoritePagerAdapter(activity as AppCompatActivity)
             TabLayoutMediator(tlFavorite, vpFavorite) { tab, position ->
                 tab.text = resources.getString(TAB_TITLES[position])
             }.attach()

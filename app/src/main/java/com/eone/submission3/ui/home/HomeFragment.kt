@@ -13,6 +13,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
+import androidx.paging.PagingData
+import androidx.paging.map
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.eone.submission3.BuildConfig
@@ -33,7 +35,7 @@ import com.eone.submission3.vo.Status
 import com.google.android.material.tabs.TabLayoutMediator
 import com.shashank.sony.fancytoastlib.FancyToast
 
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
 
     private lateinit var listMovies: List<MovieEntity>
     private lateinit var listTvshow: PagedList<TvShowEntity>
@@ -58,7 +60,7 @@ class HomeFragment: Fragment() {
         )[HomeViewModel::class.java]
 
 
-        val viewPagerAdapter = HomePagerAdapter(fragmentList,requireActivity().supportFragmentManager,lifecycle)
+        val viewPagerAdapter = HomePagerAdapter(activity as AppCompatActivity)
         binding.viewPager.adapter = viewPagerAdapter
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -70,19 +72,25 @@ class HomeFragment: Fragment() {
                 when (position) {
                     0 -> {
                         viewModel.getMovies().observe(viewLifecycleOwner, {
-                            when(it.status){
-                                Status.LOADING ->{
+                            when (it.status) {
+                                Status.LOADING -> {
 
                                 }
-                                Status.SUCCES ->{
+                                Status.SUCCES -> {
 //                                    if (it.data != null){
 //                                        bigPosterMovies(it.data) }
 //                                        binding.cvPoster.pageCount = it.data?.size!!
 //                                        listMovies = it.data
-                                    }
+                                }
 
-                                Status.ERROR ->{
-                                    FancyToast.makeText(context,"Error boys",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show()
+                                Status.ERROR -> {
+                                    FancyToast.makeText(
+                                        context,
+                                        "Error boys",
+                                        FancyToast.LENGTH_SHORT,
+                                        FancyToast.ERROR,
+                                        false
+                                    ).show()
                                 }
                             }
 
@@ -90,17 +98,27 @@ class HomeFragment: Fragment() {
                     }
                     1 -> {
                         viewModel.getTvShow().observe(viewLifecycleOwner, {
-                            when(it.status){
-                                Status.LOADING ->{
+                            if (it != null) {
+                                when (it.status) {
+                                    Status.LOADING -> {
 
-                                }
-                                Status.SUCCES ->{
-                                    it.data?.let { it1 -> bigPosterTvshows(it1) }
-                                    binding.cvPoster.pageCount = it.data?.size!!
-                                    listTvshow = it.data
-                                }
-                                Status.ERROR ->{
-                                    FancyToast.makeText(context,"Error boys",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show()
+                                    }
+                                    Status.SUCCES -> {
+//                                        val list = it.data?.map {
+//                                            it.
+//                                        }
+//                                        bigPosterTvshows(it.data)
+//                                        listTvshow = it.data
+                                    }
+                                    Status.ERROR -> {
+                                        FancyToast.makeText(
+                                            context,
+                                            "Error boys",
+                                            FancyToast.LENGTH_SHORT,
+                                            FancyToast.ERROR,
+                                            false
+                                        ).show()
+                                    }
                                 }
                             }
                         })
@@ -142,10 +160,10 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun bigPosterTvshows(dataMovie: PagedList<TvShowEntity>) {
+    private fun bigPosterTvshows(dataMovie: List<TvShowEntity>) {
         binding.cvPoster.setImageListener { position, imageView ->
             Glide.with(this)
-                .load(BuildConfig.IMAGE_URL + dataMovie[position]?.backdropPath)
+                .load(BuildConfig.IMAGE_URL + dataMovie[position].backdropPath)
                 .placeholder(R.drawable.picture_placeholder)
                 .error(BuildConfig.IMAGE_URL)
                 .into(imageView)

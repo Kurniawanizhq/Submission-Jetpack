@@ -13,7 +13,7 @@ interface ContentDao {
     fun getMovies(): PagingSource<Int,MovieEntity>
 
     @Query("SELECT * FROM tab_tvshow")
-    fun getTvShow(): DataSource.Factory<Int, TvShowEntity>
+    fun getTvShow():PagingSource<Int, TvShowEntity>
 
     @Query("SELECT * FROM tab_movie WHERE movie_id = :movieId")
     fun getDetailMovieById(movieId: Int): LiveData<MovieEntity>
@@ -34,8 +34,8 @@ interface ContentDao {
     fun updateTvShow(tvshow: TvShowEntity)
 
     @Query("SELECT * FROM tab_movie WHERE is_favorite = 1")
-    fun getFavoriteMovies(): DataSource.Factory<Int, MovieEntity>
+    fun getFavoriteMovies():PagingSource<Int, MovieEntity>
 
     @Query("SELECT * FROM tab_tvshow WHERE is_favorite = 1")
-    fun getFavoriteTvShow(): DataSource.Factory<Int, TvShowEntity>
+    fun getFavoriteTvShow(): PagingSource<Int, TvShowEntity>
 }

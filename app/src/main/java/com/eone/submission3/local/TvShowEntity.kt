@@ -13,33 +13,30 @@ import kotlinx.parcelize.Parcelize
 data class TvShowEntity(
 
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("id")
-    val id: Int? = null,
-
     @NonNull
     @ColumnInfo(name = "tvshow_id")
     val tvshowId : Int = 0 ,
 
     @ColumnInfo(name = "tvshow_poster")
-    val posterPath: String? = null,
+    val posterPath: String,
 
     @ColumnInfo(name = "tvshow_bg")
-    val backdropPath: String? = null,
+    val backdropPath: String,
 
     @ColumnInfo(name = "tv_name")
-    val name: String? = null,
+    val name: String,
 
     @ColumnInfo(name = "duration")
-    val duration : String? = null,
+    val duration : String,
 
     @ColumnInfo(name = "overview")
-    val overview: String? = null,
+    val overview: String,
 
     @ColumnInfo(name = "release_date")
-    var releaseDate : String? = null,
+    var releaseDate : String,
 
     @ColumnInfo(name = "genre")
-    var genre : String? = null,
+    var genre : String,
 
     @ColumnInfo(name = "vote_average")
     var voteAverage : Double = 0.0,

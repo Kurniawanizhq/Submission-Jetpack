@@ -27,7 +27,7 @@ import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.coroutines.launch
 
 
-class MovieFragment : Fragment(), HomeCallback {
+class MovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
 
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = requireNotNull(_binding)
@@ -57,7 +57,7 @@ class MovieFragment : Fragment(), HomeCallback {
                             if (it.data != null) {
                                 showProgressBar(false)
                                 viewLifecycleOwner.lifecycleScope.launch {
-                                    setLayout(it)
+                                    setRecyclerView(it)
                                 }
                             }
                         }
@@ -78,7 +78,7 @@ class MovieFragment : Fragment(), HomeCallback {
         }
     }
 
-    private suspend fun setLayout(data: Resource<PagingData<MovieEntity>>) {
+    private suspend fun setRecyclerView(data: Resource<PagingData<MovieEntity>>) {
         binding.rvMovie.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = HomeAdapter(this@MovieFragment)
@@ -86,7 +86,7 @@ class MovieFragment : Fragment(), HomeCallback {
             it.adapter.let { adapter ->
                 when (adapter) {
                     is HomeAdapter -> {
-                        data.data?.let { it1 -> adapter.submitData(it1) }
+                        adapter.submitData(data.data!!)
                     }
                 }
 
@@ -114,9 +114,5 @@ class MovieFragment : Fragment(), HomeCallback {
                 .putExtra(DetailActivity.EXTRA_ID, data.movieId)
                 .putExtra(DetailActivity.EXTRA_TYPE, "MOVIE")
         )
-    }
-
-    override fun onItemClickedTvshow(data: TvShowEntity) {
-        TODO("Not yet implemented")
     }
 }

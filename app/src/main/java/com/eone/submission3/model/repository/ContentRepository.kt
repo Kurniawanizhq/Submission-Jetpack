@@ -1,8 +1,10 @@
 package com.eone.submission3.model.repository
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.eone.submission3.ApiResponse
 import com.eone.submission3.AppExecutors
 import com.eone.submission3.NetworkBoundResource
@@ -13,7 +15,6 @@ import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.model.source.ContentDataSource
 import com.eone.submission3.vo.Resource
-import kotlinx.coroutines.flow.Flow
 
 class ContentRepository(
     private val remoteRepository: RemoteDataSource,
@@ -38,22 +39,23 @@ class ContentRepository(
         return object :
             NetworkBoundResource<PagingData<MovieEntity>, List<ItemListResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagingData<MovieEntity>> {
-//                val config = PagedList.Config.Builder()
+//                val config = PagingData.Config.Builder()
 //                    .setEnablePlaceholders(false)
 //                    .setInitialLoadSizeHint(4)
 //                    .setPageSize(4)
 //                    .build()
 //                println("NGAMBIL DATABASE")
 
-//                return LivePagedListBuilder(localDataSource.getMovies(), config).build()
+//                return LivePagingDataBuilder(localDataSource.getMovies(), config).build()
 
-                 val movieConfig = PagingConfig(pageSize = 5)
+                val movieConfig = PagingConfig(pageSize = 4)
                 val moviePagingFactory = {
                     localDataSource.getMovies()
                 }
-                print("DATA LOKAL ${Pager(config = movieConfig, pagingSourceFactory = moviePagingFactory).flow}")
-
-                return Pager(config = movieConfig, pagingSourceFactory = moviePagingFactory).liveData
+                return Pager(
+                    config = movieConfig,
+                    pagingSourceFactory = moviePagingFactory
+                ).liveData
             }
 
             override fun shouldFetch(data: PagingData<MovieEntity>?): Boolean = data != null
@@ -122,21 +124,19 @@ class ContentRepository(
                     isFavorite = false
                 )
                 println("RESULT : $movie")
-                localDataSource.setFavoriteMovie(movie, false)
+                localDataSource.setFavoriteMovie(movie,true)
             }
 
         }.asLiveData()
 
     }
 
-    override fun getFavoriteMovies(): LiveData<PagedList<MovieEntity>> {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(4)
-            .setPageSize(4)
-            .build()
-
-        return LivePagedListBuilder(localDataSource.getFavoriteMovies(), config).build()
+    override fun getFavoriteMovies(): LiveData<PagingData<MovieEntity>> {
+        val movieConfig = PagingConfig(pageSize = 4)
+        val moviePagingFactory = {
+            localDataSource.getFavoriteMovies()
+        }
+        return Pager(config = movieConfig, pagingSourceFactory = moviePagingFactory).liveData
     }
 
     override fun setFavoriteMovie(movie: MovieEntity, state: Boolean) {
@@ -145,20 +145,18 @@ class ContentRepository(
         }
     }
 
-    override fun getTvShow(): LiveData<Resource<PagedList<TvShowEntity>>> {
+    override fun getTvShow(): LiveData<Resource<PagingData<TvShowEntity>>> {
         return object :
-            NetworkBoundResource<PagedList<TvShowEntity>, List<ItemListResponse>>(appExecutors) {
-            override fun loadFromDB(): LiveData<PagedList<TvShowEntity>> {
-                val config = PagedList.Config.Builder()
-                    .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(4)
-                    .setPageSize(4)
-                    .build()
-
-                return LivePagedListBuilder(localDataSource.getTvShows(), config).build()
+            NetworkBoundResource<PagingData<TvShowEntity>, List<ItemListResponse>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagingData<TvShowEntity>> {
+                val movieConfig = PagingConfig(pageSize = 4)
+                val moviePagingFactory = {
+                    localDataSource.getTvShows()
+                }
+                return Pager(config = movieConfig, pagingSourceFactory = moviePagingFactory).liveData
             }
 
-            override fun shouldFetch(data: PagedList<TvShowEntity>?): Boolean = data.isNullOrEmpty()
+            override fun shouldFetch(data: PagingData<TvShowEntity>?): Boolean = data!= null
 
             override fun createCall(): LiveData<ApiResponse<List<ItemListResponse>>> =
                 remoteRepository.getTvShow()
@@ -167,14 +165,13 @@ class ContentRepository(
                 val tvList = ArrayList<TvShowEntity>()
                 for (response in data) {
                     val tvshow = TvShowEntity(
-                        id = null,
                         tvshowId = response.id,
-                        backdropPath = response.backdropPath,
+                        backdropPath = response.backdropPath ?: "",
                         genre = "",
-                        name = response.name,
+                        name = response.name ?: "",
                         duration = "",
-                        overview = response.overview,
-                        posterPath = response.posterPath,
+                        overview = response.overview ?: "",
+                        posterPath = response.posterPath ?: "",
                         releaseDate = "",
                         voteAverage = 0.0,
                         isFavorite = false
@@ -209,34 +206,31 @@ class ContentRepository(
                 }
 
                 val tvshow = TvShowEntity(
-                    id = null,
                     tvshowId = data.id,
                     backdropPath = data.backdropPath,
                     genre = genre.toString(),
-                    overview = data.overview,
+                    overview = data.overview ?: "",
                     posterPath = data.posterPath,
-                    name = data.title,
-                    duration = data.releaseTvDate,
+                    name = data.name ?: "",
+                    duration = data.duration.toString(),
                     releaseDate = data.releaseTvDate,
                     voteAverage = data.voteAverage,
                     isFavorite = false
                 )
                 println("data tv : $tvshow")
-                localDataSource.setFavoriteTvShow(tvshow, false)
+                localDataSource.setFavoriteTvShow(tvshow, true)
             }
 
         }.asLiveData()
     }
 
 
-    override fun getFavoriteTvShow(): LiveData<PagedList<TvShowEntity>> {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(4)
-            .setPageSize(4)
-            .build()
-
-        return LivePagedListBuilder(localDataSource.getFavoriteTvShow(), config).build()
+    override fun getFavoriteTvShow(): LiveData<PagingData<TvShowEntity>> {
+        val movieConfig = PagingConfig(pageSize = 4)
+        val moviePagingFactory = {
+            localDataSource.getFavoriteTvShow()
+        }
+        return Pager(config = movieConfig, pagingSourceFactory = moviePagingFactory).liveData
     }
 
     override fun setFavoriteTvShow(tvShow: TvShowEntity, state: Boolean) {

@@ -12,7 +12,7 @@ import com.eone.submission3.databinding.ListMovieBinding
 import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.ui.home.HomeCallback
 
-class HomeAdapter(private val homeCallback: HomeCallback) : PagingDataAdapter<MovieEntity,HomeAdapter.MovieViewHolder>(
+class HomeAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : PagingDataAdapter<MovieEntity,HomeAdapter.MovieViewHolder>(
     DIFF_CALLBACK)  {
 //    private var listMovies = ArrayList<MovieEntity>()
 //
@@ -28,7 +28,7 @@ class HomeAdapter(private val homeCallback: HomeCallback) : PagingDataAdapter<Mo
             binding.apply {
                 tvTitleHome.text = movie.title
                 itemCard.setOnClickListener {
-                    homeCallback.onItemClickedMovie(movie)
+                    movieCallback.onItemClickedMovie(movie)
                 }
                 Glide.with(itemView.context)
                     .load(BuildConfig.IMAGE_URL + movie.posterPath)

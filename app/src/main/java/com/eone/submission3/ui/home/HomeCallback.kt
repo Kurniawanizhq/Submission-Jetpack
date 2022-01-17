@@ -4,8 +4,11 @@ import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.local.TvShowEntity
 
 interface HomeCallback {
-    fun onItemClickedMovie(data: MovieEntity)
+    interface OnItemClickedMovie {
+        fun onItemClickedMovie(data: MovieEntity)
+    }
 
-    fun onItemClickedTvshow(data : TvShowEntity)
-
+    interface OnItemClickedTvshow {
+        fun onItemClickedTvshow(data: TvShowEntity)
+    }
 }

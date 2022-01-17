@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eone.submission3.databinding.FragmentTvShowBinding
 import com.eone.submission3.local.MovieEntity
@@ -22,10 +24,12 @@ import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Resource
 import com.eone.submission3.vo.Status
 import com.shashank.sony.fancytoastlib.FancyToast
+import kotlinx.coroutines.launch
 
-class TvShowFragment : Fragment(), HomeCallback {
+class TvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
     private var _binding: FragmentTvShowBinding? = null
     private val binding get() = requireNotNull(_binding)
+    private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,25 +40,30 @@ class TvShowFragment : Fragment(), HomeCallback {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
             val viewModelFactory = ViewModelFactory.getInstance(requireContext())
-            val viewModel = ViewModelProvider(
+            viewModel = ViewModelProvider(
                 this,
                 viewModelFactory
             )[HomeViewModel::class.java]
-            viewModel.getTvShow().observe(viewLifecycleOwner,{
-                when(it.status){
-                    Status.LOADING ->{
+            viewModel.getTvShow().observe(viewLifecycleOwner, {
+                when (it.status) {
+                    Status.LOADING -> {
                         showProgressBar(true)
                     }
-                    Status.SUCCES ->{
+                    Status.SUCCES -> {
                         showProgressBar(false)
                         setLayout(it)
                     }
-                    Status.ERROR ->{
+                    Status.ERROR -> {
                         showProgressBar(false)
-                        FancyToast.makeText(context,"Error Load Data",FancyToast.LENGTH_SHORT,FancyToast.ERROR,false).show()
+                        FancyToast.makeText(
+                            context,
+                            "Error Load Data",
+                            FancyToast.LENGTH_SHORT,
+                            FancyToast.ERROR,
+                            false
+                        ).show()
                     }
                 }
 
@@ -63,7 +72,7 @@ class TvShowFragment : Fragment(), HomeCallback {
         }
     }
 
-    private fun setLayout(data: Resource<PagedList<TvShowEntity>>) {
+    private fun setLayout(data: Resource<PagingData<TvShowEntity>>) {
         binding.rvTvShow.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = TvShowAdapter(this@TvShowFragment)
@@ -71,7 +80,9 @@ class TvShowFragment : Fragment(), HomeCallback {
             it.adapter.let { adapter ->
                 when (adapter) {
                     is TvShowAdapter -> {
-                        adapter.submitList(data.data)
+                        viewModel.viewModelScope.launch {
+                            adapter.submitData(data.data!!)
+                        }
                     }
                 }
 
@@ -86,22 +97,18 @@ class TvShowFragment : Fragment(), HomeCallback {
 
     private fun showProgressBar(state: Boolean) {
         binding.rvTvShow.isInvisible = state
-        if (state){
+        if (state) {
             binding.rlTvShow.start()
-        }else{
+        } else {
             binding.rlTvShow.stop()
         }
-    }
-
-    override fun onItemClickedMovie(data: MovieEntity) {
-        TODO("Not yet implemented")
     }
 
     override fun onItemClickedTvshow(data: TvShowEntity) {
         startActivity(
             Intent(context, DetailActivity::class.java)
-                .putExtra(DetailActivity.EXTRA_ID,data.tvshowId)
-                .putExtra(DetailActivity.EXTRA_TYPE,"TV_SHOW")
+                .putExtra(DetailActivity.EXTRA_ID, data.tvshowId)
+                .putExtra(DetailActivity.EXTRA_TYPE, "TV_SHOW")
         )
     }
 }

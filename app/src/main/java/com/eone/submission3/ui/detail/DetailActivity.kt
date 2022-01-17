@@ -36,6 +36,10 @@ class DetailActivity : AppCompatActivity() {
             setExpandedTitleTypeface(fontTitle)
             elevation = 0f
         }
+//        binding.fabAddToFavorite.setOnClickListener {
+//            Toast.makeText(this,"added from favorite", Toast.LENGTH_SHORT).show()
+//            FancyToast.makeText(applicationContext,"Added from Favorite",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,false).show()
+//        }
 
         val viewModelFactory = ViewModelFactory.getInstance(this)
 
@@ -54,13 +58,14 @@ class DetailActivity : AppCompatActivity() {
                     Status.LOADING ->  showProgressBar(true)
                     Status.SUCCES -> {
                         if (resource.data != null){
+                            println("detail : ${resource.data}")
                             showProgressBar(false)
-//                            val state = resource.data.isFavorite
-                            viewModel.setFavoriteMovie(resource.data)
                             detailMovie(resource.data)
+                            statusFavorite(resource.data.isFavorite)
                         }
+
                         binding.fabAddToFavorite.setOnClickListener {
-                            setToFavorite(resource)
+                            setToFavorite(resource.data)
                         }
                     }
                     Status.ERROR -> {
@@ -73,15 +78,19 @@ class DetailActivity : AppCompatActivity() {
 
         } else if (type.equals("TV_SHOW", ignoreCase = true)) {
             binding.collapsingDetail.title = "Detail Tv Show"
-            viewModel.getTvShowDetail(id).observe(this, {
-                when(it.status){
+            viewModel.getTvShowDetail(id).observe(this, { resource ->
+                when(resource.status){
                     Status.LOADING ->  showProgressBar(true)
                     Status.SUCCES -> {
-                        if (it.data != null){
+                        if (resource.data != null){
                             showProgressBar(false)
-//                            val state = it.data.isFavorite
-                            viewModel.setFavoriteTvShow(it.data)
-                            detailTvshow(it.data)
+
+                            detailTvshow(resource.data)
+                            statusFavorite(resource.data.isFavorite)
+
+                            binding.fabAddToFavorite.setOnClickListener {
+                                setToFavorite(resource.data)
+                            }
                         }
                     }
                     Status.ERROR ->{
@@ -98,14 +107,8 @@ class DetailActivity : AppCompatActivity() {
             println("ITEM : $itemDetail")
         binding.apply {
 
-            //Get Genre Text
-//            val listGenre = itemDetail.genre?.map {
-//                it.name
-//            }
-//            val genreText = replaceList(listGenre.toString())
-
             // Get year
-            val date : String = itemDetail.releaseDate.toString()
+            val date : String = itemDetail.releaseDate
             val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val cal : Calendar = Calendar.getInstance()
             sdf.parse(date)?.let {
@@ -142,14 +145,8 @@ class DetailActivity : AppCompatActivity() {
 
         binding.apply {
 
-            //Get Genre Text
-//            val listGenre = itemDetail.genre?.map {
-//                it.name
-//            }
-//            val genreText = replaceList(listGenre.toString())
-
             // Get year
-            val date : String = itemDetail.releaseDate.toString()
+            val date : String = itemDetail.releaseDate
             val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val cal : Calendar = Calendar.getInstance()
             sdf.parse(date)?.let {
@@ -182,8 +179,17 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceList(text: String): String {
-        return text.replace("[", "").replace("]", "")
+//    private fun replaceList(text: String): String {
+//        return text.replace("[", "").replace("]", "")
+//    }
+
+    private fun statusFavorite(state: Boolean) {
+            if (state){
+                binding.fabAddToFavorite.setImageResource(R.drawable.ic_favorite_red)
+            }
+            else{
+                binding.fabAddToFavorite.setImageResource(R.drawable.ic_favorite_black)
+            }
     }
 
     private fun setToFavorite(data : Any?) {
@@ -194,7 +200,7 @@ class DetailActivity : AppCompatActivity() {
                 }else{
                     FancyToast.makeText(this,"${data.title} Added from Favorite",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,false).show()
                 }
-                viewModel.setFavoriteMovie(data)
+                viewModel.setFavoriteMovie(data, data.isFavorite)
             }
             is TvShowEntity ->{
                 if (data.isFavorite){
@@ -202,7 +208,7 @@ class DetailActivity : AppCompatActivity() {
                 }else{
                     FancyToast.makeText(this,"${data.name} Added from Favorite",FancyToast.LENGTH_SHORT,FancyToast.SUCCESS,false).show()
                 }
-                viewModel.setFavoriteTvShow(data)
+                viewModel.setFavoriteTvShow(data,data.isFavorite)
             }
         }
     }
