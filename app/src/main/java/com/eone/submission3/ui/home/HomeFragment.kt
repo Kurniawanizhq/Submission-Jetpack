@@ -30,6 +30,7 @@ import com.eone.submission3.ui.home.fragment.content.MovieFragment
 import com.eone.submission3.ui.home.fragment.content.TvShowFragment
 import com.eone.submission3.ui.home.fragment.favorite.FavoriteMovieFragment
 import com.eone.submission3.ui.home.fragment.favorite.FavoriteTvShowFragment
+import com.eone.submission3.utils.SortUtils
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Status
 import com.google.android.material.tabs.TabLayoutMediator
@@ -71,7 +72,7 @@ class HomeFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 when (position) {
                     0 -> {
-                        viewModel.getMovies().observe(viewLifecycleOwner, {
+                        viewModel.getMovies(SortUtils.POPULARITY).observe(viewLifecycleOwner, {
                             when (it.status) {
                                 Status.LOADING -> {
 
@@ -97,7 +98,7 @@ class HomeFragment : Fragment() {
                         })
                     }
                     1 -> {
-                        viewModel.getTvShow().observe(viewLifecycleOwner, {
+                        viewModel.getTvShow(SortUtils.POPULARITY).observe(viewLifecycleOwner, {
                             if (it != null) {
                                 when (it.status) {
                                     Status.LOADING -> {

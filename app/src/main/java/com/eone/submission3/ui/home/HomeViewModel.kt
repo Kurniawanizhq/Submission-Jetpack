@@ -5,7 +5,7 @@ import androidx.lifecycle.asFlow
 import com.eone.submission3.model.repository.ContentRepository
 
 class HomeViewModel(private val contentRepository: ContentRepository) : ViewModel() {
-     fun getMovies() = contentRepository.getMovie()
+    fun getMovies(sort : String) = contentRepository.getMovie(sort)
 
-    fun getTvShow() = contentRepository.getTvShow()
+    fun getTvShow(sort : String) = contentRepository.getTvShow(sort)
 }

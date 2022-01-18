@@ -8,9 +8,9 @@ import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.vo.Resource
 
 interface ContentDataSource {
-    fun getMovie() : LiveData<Resource<PagingData<MovieEntity>>>
+    fun getMovie(sort : String) : LiveData<Resource<PagingData<MovieEntity>>>
     fun getMovieDetail(movieId : Int): LiveData<Resource<MovieEntity>>
-    fun getTvShow() : LiveData<Resource<PagingData<TvShowEntity>>>
+    fun getTvShow(sort : String) : LiveData<Resource<PagingData<TvShowEntity>>>
     fun getTvShowDetail(tvShowId: Int) : LiveData<Resource<TvShowEntity>>
     fun getFavoriteMovies() : LiveData<PagingData<MovieEntity>>
     fun setFavoriteMovie (movie : MovieEntity, state : Boolean)

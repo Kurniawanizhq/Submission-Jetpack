@@ -2,20 +2,16 @@ package com.eone.submission3.ui.home.fragment.favorite
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import androidx.core.view.isGone
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eone.submission3.databinding.FragmentFavoriteMovieBinding
 import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
-import com.eone.submission3.ui.adapter.HomeAdapter
+import com.eone.submission3.ui.adapter.MovieAdapter
 import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.ui.home.HomeCallback
 import com.eone.submission3.utils.ViewModelFactory
@@ -48,12 +44,12 @@ class FavoriteMovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
     private fun getFavorite() {
         binding.apply {
             rvFavoriteMovie.layoutManager = GridLayoutManager(context, 2)
-            rvFavoriteMovie.adapter = HomeAdapter(this@FavoriteMovieFragment)
+            rvFavoriteMovie.adapter = MovieAdapter(this@FavoriteMovieFragment)
             viewModel.getFavoriteMovies().observe(viewLifecycleOwner) {
                 println("Favorite Movie : $it")
                 if (it != null) {
                     rvFavoriteMovie.adapter.let { adapter ->
-                        if (adapter is HomeAdapter) {
+                        if (adapter is MovieAdapter) {
                             rvFavoriteMovie.visibility = View.VISIBLE
                             viewModel.viewModelScope.launch {
                                 adapter.submitData(it)

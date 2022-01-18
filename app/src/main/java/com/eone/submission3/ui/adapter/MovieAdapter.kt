@@ -12,8 +12,9 @@ import com.eone.submission3.databinding.ListMovieBinding
 import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.ui.home.HomeCallback
 
-class HomeAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : PagingDataAdapter<MovieEntity,HomeAdapter.MovieViewHolder>(
+class MovieAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : PagingDataAdapter<MovieEntity,MovieAdapter.MovieViewHolder>(
     DIFF_CALLBACK)  {
+//class MovieAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>()  {
 //    private var listMovies = ArrayList<MovieEntity>()
 //
 //    fun setMovies(movies: List<MovieEntity>?) {
@@ -65,4 +66,5 @@ class HomeAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : 
             }
         }
     }
+
 }

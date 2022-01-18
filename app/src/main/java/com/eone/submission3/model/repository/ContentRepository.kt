@@ -35,22 +35,13 @@ class ContentRepository(
         }
     }
 
-    override fun getMovie(): LiveData<Resource<PagingData<MovieEntity>>> {
+    override fun getMovie(sort : String): LiveData<Resource<PagingData<MovieEntity>>> {
         return object :
-            NetworkBoundResource<PagingData<MovieEntity>, List<ItemListResponse>>(appExecutors) {
+                NetworkBoundResource<PagingData<MovieEntity>, List<ItemListResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagingData<MovieEntity>> {
-//                val config = PagingData.Config.Builder()
-//                    .setEnablePlaceholders(false)
-//                    .setInitialLoadSizeHint(4)
-//                    .setPageSize(4)
-//                    .build()
-//                println("NGAMBIL DATABASE")
-
-//                return LivePagingDataBuilder(localDataSource.getMovies(), config).build()
-
                 val movieConfig = PagingConfig(pageSize = 4)
                 val moviePagingFactory = {
-                    localDataSource.getMovies()
+                    localDataSource.getMovies(sort)
                 }
                 return Pager(
                     config = movieConfig,
@@ -58,7 +49,7 @@ class ContentRepository(
                 ).liveData
             }
 
-            override fun shouldFetch(data: PagingData<MovieEntity>?): Boolean = data != null
+            override fun shouldFetch(data: PagingData<MovieEntity>?): Boolean = data == null
 
 
             override fun createCall(): LiveData<ApiResponse<List<ItemListResponse>>> =
@@ -145,18 +136,18 @@ class ContentRepository(
         }
     }
 
-    override fun getTvShow(): LiveData<Resource<PagingData<TvShowEntity>>> {
+    override fun getTvShow(sort : String): LiveData<Resource<PagingData<TvShowEntity>>> {
         return object :
             NetworkBoundResource<PagingData<TvShowEntity>, List<ItemListResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagingData<TvShowEntity>> {
                 val movieConfig = PagingConfig(pageSize = 4)
                 val moviePagingFactory = {
-                    localDataSource.getTvShows()
+                    localDataSource.getTvShows(sort)
                 }
                 return Pager(config = movieConfig, pagingSourceFactory = moviePagingFactory).liveData
             }
 
-            override fun shouldFetch(data: PagingData<TvShowEntity>?): Boolean = data!= null
+            override fun shouldFetch(data: PagingData<TvShowEntity>?): Boolean = data == null
 
             override fun createCall(): LiveData<ApiResponse<List<ItemListResponse>>> =
                 remoteRepository.getTvShow()

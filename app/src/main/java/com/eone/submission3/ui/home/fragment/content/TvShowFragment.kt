@@ -20,6 +20,7 @@ import com.eone.submission3.ui.adapter.TvShowAdapter
 import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.ui.home.HomeCallback
 import com.eone.submission3.ui.home.HomeViewModel
+import com.eone.submission3.utils.SortUtils
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Resource
 import com.eone.submission3.vo.Status
@@ -46,30 +47,42 @@ class TvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
                 this,
                 viewModelFactory
             )[HomeViewModel::class.java]
-            viewModel.getTvShow().observe(viewLifecycleOwner, {
-                when (it.status) {
-                    Status.LOADING -> {
-                        showProgressBar(true)
-                    }
-                    Status.SUCCES -> {
-                        showProgressBar(false)
-                        setLayout(it)
-                    }
-                    Status.ERROR -> {
-                        showProgressBar(false)
-                        FancyToast.makeText(
-                            context,
-                            "Error Load Data",
-                            FancyToast.LENGTH_SHORT,
-                            FancyToast.ERROR,
-                            false
-                        ).show()
-                    }
-                }
 
+            setList(SortUtils.POPULARITY)
 
-            })
+            binding.apply {
+                fabPopularity.setOnClickListener { setList(SortUtils.POPULARITY) }
+                fabNewest.setOnClickListener { setList(SortUtils.NEWEST) }
+                fabOldest.setOnClickListener { setList(SortUtils.OLDEST) }
+            }
+
         }
+    }
+
+    private fun setList(sort : String){
+        viewModel.getTvShow(sort).observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    showProgressBar(true)
+                }
+                Status.SUCCES -> {
+                    showProgressBar(false)
+                    setLayout(it)
+                }
+                Status.ERROR -> {
+                    showProgressBar(false)
+                    FancyToast.makeText(
+                        context,
+                        "Error Load Data",
+                        FancyToast.LENGTH_SHORT,
+                        FancyToast.ERROR,
+                        false
+                    ).show()
+                }
+            }
+
+
+        })
     }
 
     private fun setLayout(data: Resource<PagingData<TvShowEntity>>) {

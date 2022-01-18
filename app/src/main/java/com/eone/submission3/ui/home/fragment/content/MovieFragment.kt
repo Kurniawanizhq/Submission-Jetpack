@@ -10,18 +10,16 @@ import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eone.submission3.databinding.FragmentMovieBinding
 import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
-import com.eone.submission3.ui.adapter.HomeAdapter
+import com.eone.submission3.ui.adapter.MovieAdapter
 import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.ui.home.HomeCallback
 import com.eone.submission3.ui.home.HomeViewModel
+import com.eone.submission3.utils.SortUtils
 import com.eone.submission3.utils.ViewModelFactory
-import com.eone.submission3.vo.Resource
 import com.eone.submission3.vo.Status
 import com.shashank.sony.fancytoastlib.FancyToast
 import kotlinx.coroutines.launch
@@ -31,6 +29,7 @@ class MovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
 
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = requireNotNull(_binding)
+    private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,49 +43,60 @@ class MovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
             val viewModelFactory = ViewModelFactory.getInstance(requireContext())
+            viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
 
-            val viewModel = ViewModelProvider(this, viewModelFactory)[HomeViewModel::class.java]
+            setList(SortUtils.POPULARITY)
 
-            viewModel.getMovies().observe(viewLifecycleOwner, {
-                if (it != null) {
-                    when (it.status) {
-                        Status.LOADING -> {
-                            showProgressBar(true)
-                        }
-                        Status.SUCCES -> {
-                            if (it.data != null) {
-                                showProgressBar(false)
-                                viewLifecycleOwner.lifecycleScope.launch {
-                                    setRecyclerView(it)
-                                }
-                            }
-                        }
-                        Status.ERROR -> {
-                            showProgressBar(false)
-                            FancyToast.makeText(
-                                context,
-                                "Error memuat data",
-                                Toast.LENGTH_SHORT,
-                                FancyToast.ERROR,
-                                false
-                            ).show()
-                        }
-                    }
+            binding.apply {
+                fabPopularity.setOnClickListener { setList(SortUtils.POPULARITY) }
+                fabNewest.setOnClickListener { setList(SortUtils.NEWEST) }
+                fabOldest.setOnClickListener { setList(SortUtils.OLDEST) }
+            }
 
-                }
-            })
+
         }
     }
 
-    private suspend fun setRecyclerView(data: Resource<PagingData<MovieEntity>>) {
+    private fun setList(sort: String) {
+        viewModel.getMovies(sort).observe(viewLifecycleOwner, {
+            if (it != null) {
+                when (it.status) {
+                    Status.LOADING -> {
+                        showProgressBar(true)
+                    }
+                    Status.SUCCES -> {
+                        if (it.data != null) {
+                            showProgressBar(false)
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                setRecyclerView(it.data)
+                            }
+                        }
+                    }
+                    Status.ERROR -> {
+                        showProgressBar(false)
+                        FancyToast.makeText(
+                            context,
+                            "Error memuat data",
+                            Toast.LENGTH_SHORT,
+                            FancyToast.ERROR,
+                            false
+                        ).show()
+                    }
+                }
+
+            }
+        })
+    }
+
+    private suspend fun setRecyclerView(data: PagingData<MovieEntity>) {
         binding.rvMovie.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = HomeAdapter(this@MovieFragment)
+            adapter = MovieAdapter(this@MovieFragment)
         }.also {
             it.adapter.let { adapter ->
                 when (adapter) {
-                    is HomeAdapter -> {
-                        adapter.submitData(data.data!!)
+                    is MovieAdapter -> {
+                        adapter.submitData(data)
                     }
                 }
 
