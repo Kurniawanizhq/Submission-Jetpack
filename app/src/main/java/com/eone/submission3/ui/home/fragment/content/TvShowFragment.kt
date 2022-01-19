@@ -1,6 +1,5 @@
 package com.eone.submission3.ui.home.fragment.content
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +8,9 @@ import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eone.submission3.databinding.FragmentTvShowBinding
-import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.ui.adapter.TvShowAdapter
 import com.eone.submission3.ui.detail.DetailActivity
@@ -22,10 +18,8 @@ import com.eone.submission3.ui.home.HomeCallback
 import com.eone.submission3.ui.home.HomeViewModel
 import com.eone.submission3.utils.SortUtils
 import com.eone.submission3.utils.ViewModelFactory
-import com.eone.submission3.vo.Resource
 import com.eone.submission3.vo.Status
 import com.shashank.sony.fancytoastlib.FancyToast
-import kotlinx.coroutines.launch
 
 class TvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
     private var _binding: FragmentTvShowBinding? = null
@@ -59,15 +53,17 @@ class TvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
         }
     }
 
-    private fun setList(sort : String){
+    private fun setList(sort: String) {
         viewModel.getTvShow(sort).observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
                     showProgressBar(true)
                 }
                 Status.SUCCES -> {
-                    showProgressBar(false)
-                    setLayout(it)
+                    if (it.data != null) {
+                        showProgressBar(false)
+                        setLayout(it.data)
+                    }
                 }
                 Status.ERROR -> {
                     showProgressBar(false)
@@ -85,7 +81,7 @@ class TvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
         })
     }
 
-    private fun setLayout(data: Resource<PagingData<TvShowEntity>>) {
+    private fun setLayout(data: PagedList<TvShowEntity>) {
         binding.rvTvShow.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = TvShowAdapter(this@TvShowFragment)
@@ -93,9 +89,7 @@ class TvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
             it.adapter.let { adapter ->
                 when (adapter) {
                     is TvShowAdapter -> {
-                        viewModel.viewModelScope.launch {
-                            adapter.submitData(data.data!!)
-                        }
+                        adapter.submitList(data)
                     }
                 }
 

@@ -28,12 +28,6 @@ class HomeActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_controller) as NavHostFragment
         val navController = navHostFragment.navController
 
-//        val appBarConfiguration = AppBarConfiguration.Builder(
-//            R.id.nav_home,
-//            R.id.nav_favorite
-//        ).build()
-
-//        setupActionBarWithNavController(navController,appBarConfiguration)
         binding.bottomNav.setupWithNavController(navController)
     }
 }

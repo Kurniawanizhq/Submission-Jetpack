@@ -1,26 +1,18 @@
 package com.eone.submission3.local
 
 import androidx.lifecycle.LiveData
-import androidx.paging.PagingSource
+import androidx.paging.DataSource
 import com.eone.submission3.ContentDao
 import com.eone.submission3.utils.SortUtils
-import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(private val contentDao: ContentDao) {
+class LocalDataSource (private val contentDao: ContentDao) {
 
-    companion object {
-        private var INSTANCE: LocalDataSource? = null
-
-        fun getInstance(contentDao: ContentDao): LocalDataSource =
-            INSTANCE ?: LocalDataSource(contentDao)
-    }
-
-    fun getMovies(sort: String): PagingSource<Int, MovieEntity> {
+    fun getMovies(sort: String): DataSource.Factory<Int, MovieEntity> {
         val query = SortUtils.getSortedQueryMovies(sort)
         return contentDao.getMovies(query)
     }
 
-    fun getTvShows(sort: String): PagingSource<Int, TvShowEntity> {
+    fun getTvShows(sort: String): DataSource.Factory<Int, TvShowEntity> {
         val query = SortUtils.getSortedQueryTvShow(sort)
         return contentDao.getTvShow(query)
     }
@@ -30,9 +22,9 @@ class LocalDataSource @Inject constructor(private val contentDao: ContentDao) {
     fun getDetailTvShow(tvShowId: Int): LiveData<TvShowEntity> =
         contentDao.getDetailTvShowById(tvShowId)
 
-    fun getFavoriteMovies(): PagingSource<Int, MovieEntity> = contentDao.getFavoriteMovies()
+    fun getFavoriteMovies(): DataSource.Factory<Int, MovieEntity> = contentDao.getFavoriteMovies()
 
-    fun getFavoriteTvShow(): PagingSource<Int, TvShowEntity> = contentDao.getFavoriteTvShow()
+    fun getFavoriteTvShow(): DataSource.Factory<Int, TvShowEntity> = contentDao.getFavoriteTvShow()
 
     fun insertMovies(movies: List<MovieEntity>) = contentDao.insertMovies(movies)
 
@@ -47,5 +39,12 @@ class LocalDataSource @Inject constructor(private val contentDao: ContentDao) {
     fun setFavoriteTvShow(tvShowEntity: TvShowEntity, state: Boolean) {
         tvShowEntity.isFavorite = !state
         contentDao.updateTvShow(tvShowEntity)
+    }
+
+    companion object {
+        private var INSTANCE: LocalDataSource? = null
+
+        fun getInstance(contentDao: ContentDao): LocalDataSource =
+            INSTANCE ?: LocalDataSource(contentDao)
     }
 }

@@ -17,8 +17,8 @@ object ApiConfig {
         }
         val client = OkHttpClient.Builder()
             .dns(Dns.SYSTEM)
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .build()
         val retrofit = Retrofit.Builder()

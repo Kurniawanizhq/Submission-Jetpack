@@ -3,19 +3,17 @@ package com.eone.submission3.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.eone.submission3.BuildConfig
-import com.eone.submission3.data.response.ItemListResponse
 import com.eone.submission3.R
 import com.eone.submission3.databinding.ListMovieBinding
 import com.eone.submission3.local.TvShowEntity
 import com.eone.submission3.ui.home.HomeCallback
 
 class TvShowAdapter(private val tvShowCallback: HomeCallback.OnItemClickedTvshow) :
-    PagingDataAdapter<TvShowEntity,TvShowAdapter.MovieViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<TvShowEntity,TvShowAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
     inner class MovieViewHolder(private val binding: ListMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {

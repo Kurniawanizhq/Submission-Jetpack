@@ -34,7 +34,21 @@
                 app:layout_constraintVertical_bias="0.0"
                 app:slideInterval="5000" />
 
+            <com.victor.loading.rotate.RotateLoading
+                android:id="@+id/rl_home"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:elevation="3dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.26999998"
+                app:loading_color="@color/colorAccent" />
+
             <ImageView
+                android:id="@+id/iv_carousel"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:contentDescription="@string/bgPoster"

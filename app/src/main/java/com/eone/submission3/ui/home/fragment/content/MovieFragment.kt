@@ -9,8 +9,7 @@ import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eone.submission3.databinding.FragmentMovieBinding
 import com.eone.submission3.local.MovieEntity
@@ -22,7 +21,6 @@ import com.eone.submission3.utils.SortUtils
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Status
 import com.shashank.sony.fancytoastlib.FancyToast
-import kotlinx.coroutines.launch
 
 
 class MovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
@@ -52,8 +50,6 @@ class MovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
                 fabNewest.setOnClickListener { setList(SortUtils.NEWEST) }
                 fabOldest.setOnClickListener { setList(SortUtils.OLDEST) }
             }
-
-
         }
     }
 
@@ -66,10 +62,9 @@ class MovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
                     }
                     Status.SUCCES -> {
                         if (it.data != null) {
+                            println(it.data)
                             showProgressBar(false)
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                setRecyclerView(it.data)
-                            }
+                            setRecyclerView(it.data)
                         }
                     }
                     Status.ERROR -> {
@@ -88,7 +83,7 @@ class MovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
         })
     }
 
-    private suspend fun setRecyclerView(data: PagingData<MovieEntity>) {
+    private fun setRecyclerView(data: PagedList<MovieEntity>) {
         binding.rvMovie.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = MovieAdapter(this@MovieFragment)
@@ -96,7 +91,7 @@ class MovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
             it.adapter.let { adapter ->
                 when (adapter) {
                     is MovieAdapter -> {
-                        adapter.submitData(data)
+                        adapter.submitList(data)
                     }
                 }
 

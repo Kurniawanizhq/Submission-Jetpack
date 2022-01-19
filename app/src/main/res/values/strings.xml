@@ -15,6 +15,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_to_favorite">Add to favorite</string>
+    <string name="empty_state_title_no_favorite_item">No favorites yet</string>
+    <string name="empty_state_desc_no_favorite_item_movie">You don\'t have a list of favorite movies</string>
+    <string name="empty_state_desc_no_favorite_item_tvshow">You don\'t have a list of favorite tv show</string>
+    <string name="no_favorites">No Favorites</string>
 
 
 </resources>

@@ -9,20 +9,24 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import com.eone.submission2.utils.EspressoIdlingResource
-import com.eone.submission2.utils.FakeDataDummy
-import com.eone.submission1.R
-import com.eone.submission2.ui.home.activity.HomeActivity
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.eone.submission3.R
+import com.eone.submission3.ui.home.activity.HomeActivity
+import com.eone.submission3.utils.EspressoIdlingResource
+import com.eone.submission3.utils.FakeDataDummy
+import org.junit.*
+import org.junit.runners.MethodSorters
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING))
 class HomeActivityTest {
 
     private val dummyMovies = FakeDataDummy.getDummyMovie()
     private val dummyTvShow = FakeDataDummy.getDummyTvShow()
     private val dummyMovieDetail = FakeDataDummy.getDummyMovieDetail()
     private val dummyTvShowDetail = FakeDataDummy.getDummyTvShowDetail()
+
+    @get:Rule
+    var activityRule = ActivityScenarioRule(HomeActivity::class.java)
 
     @Before
     fun setup() {

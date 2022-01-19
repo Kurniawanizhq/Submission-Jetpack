@@ -1,4 +1,4 @@
-package com.eone.submission3.model.repository
+package com.eone.submission3.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.*
@@ -10,10 +10,11 @@ import com.eone.submission3.data.response.ItemListResponse
 import com.eone.submission3.local.LocalDataSource
 import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.model.repository.RemoteDataSource
 import com.eone.submission3.model.source.ContentDataSource
 import com.eone.submission3.vo.Resource
 
-class ContentRepository(
+class FakeContentRepositoryTest(
     private val remoteRepository: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
@@ -218,19 +219,6 @@ class ContentRepository(
     override fun setFavoriteTvShow(tvShow: TvShowEntity, state: Boolean) {
         appExecutors.diskIO().execute {
             localDataSource.setFavoriteTvShow(tvShow, state)
-        }
-    }
-
-    companion object {
-        @Volatile
-        private var INSTANCE: ContentRepository? = null
-
-        fun getInstance(
-            remoteRepository: RemoteDataSource,
-            localDataSource: LocalDataSource,
-            appExecutors: AppExecutors
-        ): ContentRepository = INSTANCE ?: synchronized(this) {
-            INSTANCE ?: ContentRepository(remoteRepository, localDataSource, appExecutors)
         }
     }
 }

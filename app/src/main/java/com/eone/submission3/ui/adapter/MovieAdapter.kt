@@ -2,7 +2,7 @@ package com.eone.submission3.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,16 +12,8 @@ import com.eone.submission3.databinding.ListMovieBinding
 import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.ui.home.HomeCallback
 
-class MovieAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : PagingDataAdapter<MovieEntity,MovieAdapter.MovieViewHolder>(
+class MovieAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : PagedListAdapter<MovieEntity,MovieAdapter.MovieViewHolder>(
     DIFF_CALLBACK)  {
-//class MovieAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>()  {
-//    private var listMovies = ArrayList<MovieEntity>()
-//
-//    fun setMovies(movies: List<MovieEntity>?) {
-//        if (movies == null) return
-//        listMovies.clear()
-//        listMovies.addAll(movies)
-//    }
 
     inner class MovieViewHolder(private val binding: ListMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -48,13 +40,10 @@ class MovieAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) :
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = getItem(position)
-//        val movie = listMovies[position]
         if (movie != null){
             holder.bind(movie)
         }
     }
-
-//    override fun getItemCount(): Int = listMovies.size
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {

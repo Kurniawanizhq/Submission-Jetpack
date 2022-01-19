@@ -1,45 +1,34 @@
 package com.eone.submission3.ui.home
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.PagedList
-import androidx.paging.PagingData
-import androidx.paging.map
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.eone.submission3.BuildConfig
-import com.eone.submission3.ContentDao
 import com.eone.submission3.R
 import com.eone.submission3.databinding.FragmentHomeBinding
-import com.eone.submission3.local.LocalDataSource
 import com.eone.submission3.local.MovieEntity
 import com.eone.submission3.local.TvShowEntity
-import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.ui.adapter.HomePagerAdapter
-import com.eone.submission3.ui.home.fragment.content.MovieFragment
-import com.eone.submission3.ui.home.fragment.content.TvShowFragment
-import com.eone.submission3.ui.home.fragment.favorite.FavoriteMovieFragment
-import com.eone.submission3.ui.home.fragment.favorite.FavoriteTvShowFragment
+import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.utils.SortUtils
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Status
 import com.google.android.material.tabs.TabLayoutMediator
-import com.shashank.sony.fancytoastlib.FancyToast
 
 class HomeFragment : Fragment() {
 
     private lateinit var listMovies: List<MovieEntity>
-    private lateinit var listTvshow: PagedList<TvShowEntity>
+    private lateinit var listTvshow: List<TvShowEntity>
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = requireNotNull(_binding)
@@ -73,63 +62,50 @@ class HomeFragment : Fragment() {
                 when (position) {
                     0 -> {
                         viewModel.getMovies(SortUtils.POPULARITY).observe(viewLifecycleOwner, {
-                            when (it.status) {
-                                Status.LOADING -> {
+                            if (it.data != null) {
+                                when (it.status) {
+                                    Status.LOADING -> {
+                                        showProgressBar(true)
+                                    }
+                                    Status.SUCCES -> {
+                                        showProgressBar(false)
+                                        bigPosterMovies(it.data)
+                                        binding.cvPoster.pageCount = it.data.size
+                                        listMovies = it.data
+                                    }
+                                    Status.ERROR -> {
+                                        showProgressBar(false)
+                                    }
+                                }
 
-                                }
-                                Status.SUCCES -> {
-//                                    if (it.data != null){
-//                                        bigPosterMovies(it.data) }
-//                                        binding.cvPoster.pageCount = it.data?.size!!
-//                                        listMovies = it.data
-                                }
-
-                                Status.ERROR -> {
-                                    FancyToast.makeText(
-                                        context,
-                                        "Error boys",
-                                        FancyToast.LENGTH_SHORT,
-                                        FancyToast.ERROR,
-                                        false
-                                    ).show()
-                                }
                             }
-
                         })
                     }
                     1 -> {
                         viewModel.getTvShow(SortUtils.POPULARITY).observe(viewLifecycleOwner, {
-                            if (it != null) {
+                            if (it.data != null) {
                                 when (it.status) {
-                                    Status.LOADING -> {
-
-                                    }
+                                    Status.LOADING -> {showProgressBar(true)}
                                     Status.SUCCES -> {
-//                                        val list = it.data?.map {
-//                                            it.
-//                                        }
-//                                        bigPosterTvshows(it.data)
-//                                        listTvshow = it.data
+                                        showProgressBar(false)
+                                        bigPosterTvshows(it.data)
+                                        binding.cvPoster.pageCount = it.data.size
+                                        listTvshow = it.data
                                     }
                                     Status.ERROR -> {
-                                        FancyToast.makeText(
-                                            context,
-                                            "Error boys",
-                                            FancyToast.LENGTH_SHORT,
-                                            FancyToast.ERROR,
-                                            false
-                                        ).show()
+                                        showProgressBar(false)
                                     }
                                 }
                             }
                         })
+
                     }
                 }
             }
         })
 
         binding.cvPoster.setImageClickListener {
-            val type = if (listMovies[it]?.title != null) {
+            val type = if (listMovies[it].title.isNotEmpty()) {
                 "MOVIE"
             } else {
                 "TV_SHOW"
@@ -171,8 +147,21 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun showProgressBar(state: Boolean) {
+        binding.ivCarousel.isInvisible = state
+        if (state) {
+            binding.rlHome.start()
+        } else {
+            binding.rlHome.stop()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
-        private val fragmentList = listOf(MovieFragment(), TvShowFragment())
         private val TAB_TITLES = intArrayOf(R.string.movies, R.string.tvShow)
     }
 }

@@ -58,20 +58,17 @@ class DetailActivity : AppCompatActivity() {
                     Status.LOADING ->  showProgressBar(true)
                     Status.SUCCES -> {
                         if (resource.data != null){
-                            println("detail : ${resource.data}")
                             showProgressBar(false)
                             detailMovie(resource.data)
                             statusFavorite(resource.data.isFavorite)
                         }
-
                         binding.fabAddToFavorite.setOnClickListener {
                             setToFavorite(resource.data)
                         }
                     }
                     Status.ERROR -> {
-                        println("Load error")
                         showProgressBar(false)
-                        FancyToast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        FancyToast.makeText(this, "Connection Error", Toast.LENGTH_SHORT,FancyToast.ERROR,false).show()
                     }
                 }
             })
@@ -95,7 +92,7 @@ class DetailActivity : AppCompatActivity() {
                     }
                     Status.ERROR ->{
                         showProgressBar(false)
-                        FancyToast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        FancyToast.makeText(this, "Connection Error", Toast.LENGTH_SHORT,FancyToast.ERROR,false).show()
                     }
                 }
             })
@@ -104,7 +101,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun detailMovie(itemDetail : MovieEntity) {
-            println("ITEM : $itemDetail")
         binding.apply {
 
             // Get year
@@ -179,9 +175,6 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-//    private fun replaceList(text: String): String {
-//        return text.replace("[", "").replace("]", "")
-//    }
 
     private fun statusFavorite(state: Boolean) {
             if (state){

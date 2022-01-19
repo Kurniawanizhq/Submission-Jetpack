@@ -29,4 +29,6 @@ interface ApiService {
         @Path("tv_id") tvId: Int,
         @Query("api_key") apiKey : String
     ): Call<ItemDetailResponse>
+
+    
 }

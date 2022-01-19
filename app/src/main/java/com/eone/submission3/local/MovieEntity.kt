@@ -5,11 +5,9 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "tab_movie")
-@Parcelize
 data class MovieEntity(
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -43,4 +41,4 @@ data class MovieEntity(
     @NonNull
     @ColumnInfo(name = "is_favorite")
     var isFavorite: Boolean = false
-) : Parcelable
+)
