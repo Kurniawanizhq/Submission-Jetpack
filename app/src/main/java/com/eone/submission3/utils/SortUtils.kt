@@ -18,7 +18,7 @@ object SortUtils {
                 simpleQuery.append("ORDER BY release_date ASC")
             }
             POPULARITY -> {
-//                simpleQuery.append("ORDER BY popularity DESC")
+//                simpleQuery.append("SELECT * FROM tab_movie ")
             }
         }
         return SimpleSQLiteQuery(simpleQuery.toString())

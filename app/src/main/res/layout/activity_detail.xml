@@ -72,7 +72,7 @@
         android:elevation="8dp"
         android:src="@drawable/ic_favorite_black"
         app:backgroundTint="@color/dark"
-        app:layout_anchor="@id/appbar"
+        app:layout_anchor="@id/collapsing_detail"
         app:layout_anchorGravity="bottom|right"
         app:layout_constraintBottom_toBottomOf="@+id/cv_poster"
         app:layout_constraintStart_toEndOf="@+id/cv_poster"
