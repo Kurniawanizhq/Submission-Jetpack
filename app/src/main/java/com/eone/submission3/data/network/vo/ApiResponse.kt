@@ -1,4 +1,4 @@
-package com.eone.submission3
+package com.eone.submission3.data.network.vo
 
 class ApiResponse<T>(val status: StatusResponse, val body: T, val message: String?) {
     companion object {

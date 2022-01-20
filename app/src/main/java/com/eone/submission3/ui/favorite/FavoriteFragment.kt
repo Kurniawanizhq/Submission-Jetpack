@@ -1,20 +1,14 @@
-package com.eone.submission3
+package com.eone.submission3.ui.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.eone.submission3.R
 import com.eone.submission3.databinding.FragmentFavoriteBinding
 import com.eone.submission3.ui.adapter.FavoritePagerAdapter
-import com.eone.submission3.ui.adapter.HomePagerAdapter
-import com.eone.submission3.ui.home.fragment.favorite.FavoriteMovieFragment
-import com.eone.submission3.ui.home.fragment.favorite.FavoriteTvShowFragment
-import com.eone.submission3.ui.home.fragment.favorite.FavoriteViewModel
-import com.eone.submission3.utils.ViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FavoriteFragment : Fragment() {
@@ -32,9 +26,8 @@ class FavoriteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val viewModelFactory = ViewModelFactory.getInstance(requireContext())
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
+//        val viewModelFactory = ViewModelFactory.getInstance(requireContext())
+//        viewModel = ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
 
         binding.apply {
             vpFavorite.adapter = FavoritePagerAdapter(activity as AppCompatActivity)
@@ -51,7 +44,6 @@ class FavoriteFragment : Fragment() {
     }
 
     companion object {
-        private val fragmentList = listOf(FavoriteMovieFragment(),FavoriteTvShowFragment())
         private val TAB_TITLES = intArrayOf(R.string.movies, R.string.tvShow)
     }
 }

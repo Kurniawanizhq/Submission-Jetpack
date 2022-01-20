@@ -1,7 +1,7 @@
 package com.eone.submission3.utils
 
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 
 object FakeDataDummy {
     fun getDummyMovie(): List<MovieEntity> {
@@ -72,10 +72,11 @@ object FakeDataDummy {
             TvShowEntity(16, "", "", "", "", "", "", "", 0.0, false),
             TvShowEntity(17, "", "", "", "", "", "", "", 0.0, false),
             TvShowEntity(18, "", "", "", "", "", "", "", 0.0, false),
-            TvShowEntity(19, "", "", "", "", "", "", "", 0.0, false))
+            TvShowEntity(19, "", "", "", "", "", "", "", 0.0, false)
+        )
     }
 
-    fun getDummyMovieDetail(): MovieEntity =MovieEntity(
+    fun getDummyMovieDetail(): MovieEntity = MovieEntity(
             524434,
             "/b6qUu00iIIkXX13szFy7d0CyNcg.jpg",
             "/c6H7Z4u73ir3cIoCteuhJh7UCAR.jpg",

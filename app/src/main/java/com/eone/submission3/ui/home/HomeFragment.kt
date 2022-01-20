@@ -16,8 +16,8 @@ import com.bumptech.glide.Glide
 import com.eone.submission3.BuildConfig
 import com.eone.submission3.R
 import com.eone.submission3.databinding.FragmentHomeBinding
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.ui.adapter.HomePagerAdapter
 import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.utils.SortUtils

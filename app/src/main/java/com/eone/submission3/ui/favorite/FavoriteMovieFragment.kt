@@ -1,24 +1,25 @@
-package com.eone.submission3.ui.home.fragment.favorite
+package com.eone.submission3.ui.favorite
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.eone.submission3.databinding.FragmentFavoriteTvShowBinding
-import com.eone.submission3.local.TvShowEntity
-import com.eone.submission3.ui.adapter.TvShowAdapter
+import com.eone.submission3.databinding.FragmentFavoriteMovieBinding
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.ui.adapter.MovieAdapter
 import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.ui.home.HomeCallback
 import com.eone.submission3.utils.ViewModelFactory
+import androidx.core.view.isInvisible
 
-class FavoriteTvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
 
-    private var _binding: FragmentFavoriteTvShowBinding? = null
+class FavoriteMovieFragment : Fragment(), HomeCallback.OnItemClickedMovie {
+
+    private var _binding: FragmentFavoriteMovieBinding? = null
     private val binding get() = requireNotNull(_binding)
     private lateinit var viewModel: FavoriteViewModel
 
@@ -26,28 +27,27 @@ class FavoriteTvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFavoriteTvShowBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentFavoriteMovieBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val viewModelFactory = ViewModelFactory.getInstance(requireContext())
-
         viewModel = ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
 
         getFavorite()
-
     }
+
 
     private fun getFavorite() {
         binding.apply {
-            rvFavoriteTvshow.layoutManager = GridLayoutManager(context, 2)
-            rvFavoriteTvshow.adapter = TvShowAdapter(this@FavoriteTvShowFragment)
-            viewModel.getFavoriteTvshow().observe(viewLifecycleOwner) {
+            rvFavoriteMovie.layoutManager = GridLayoutManager(context, 2)
+            rvFavoriteMovie.adapter = MovieAdapter(this@FavoriteMovieFragment)
+            viewModel.getFavoriteMovies().observe(viewLifecycleOwner) {
                 if (!it.isNullOrEmpty()) {
                     showEmptyFavorite(false)
-                    rvFavoriteTvshow.adapter.let { adapter ->
-                        if (adapter is TvShowAdapter) {
+                    rvFavoriteMovie.adapter.let { adapter ->
+                        if (adapter is MovieAdapter) {
                             adapter.submitList(it)
                         }
                     }
@@ -58,25 +58,25 @@ class FavoriteTvShowFragment : Fragment(), HomeCallback.OnItemClickedTvshow {
         }
     }
 
-    private fun showEmptyFavorite(state : Boolean){
+    private fun showEmptyFavorite(state: Boolean) {
         binding.apply {
-            rvFavoriteTvshow.isInvisible = state
+            rvFavoriteMovie.isInvisible = state
             imgEmpty.isInvisible = !state
             titleEmptyState.isInvisible = !state
             descEmpty.isInvisible = !state
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
-    override fun onItemClickedTvshow(data: TvShowEntity) {
+    override fun onItemClickedMovie(data: MovieEntity) {
         startActivity(
             Intent(context, DetailActivity::class.java)
-                .putExtra(DetailActivity.EXTRA_ID, data.tvshowId)
-                .putExtra(DetailActivity.EXTRA_TYPE, "TV_SHOW")
+                .putExtra(DetailActivity.EXTRA_ID, data.movieId)
+                .putExtra(DetailActivity.EXTRA_TYPE, "MOVIE")
         )
     }
 

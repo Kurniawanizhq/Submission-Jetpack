@@ -1,4 +1,4 @@
-package com.eone.submission3.local
+package com.eone.submission3.data.local.entity
 
 import android.os.Parcelable
 import androidx.annotation.NonNull

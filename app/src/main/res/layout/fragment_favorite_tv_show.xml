@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:text="@string/empty_state_title_no_favorite_item"
         android:textAlignment="center"
+        android:textColor="#494848"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone"

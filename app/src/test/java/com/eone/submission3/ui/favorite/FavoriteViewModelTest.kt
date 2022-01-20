@@ -4,10 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import androidx.lifecycle.Observer
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.model.repository.ContentRepository
-import com.eone.submission3.ui.home.fragment.favorite.FavoriteViewModel
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import org.junit.Before

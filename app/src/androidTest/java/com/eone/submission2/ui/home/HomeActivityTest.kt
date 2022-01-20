@@ -23,8 +23,6 @@ class HomeActivityTest {
 
     private val dummyMovies = FakeDataDummy.getDummyMovie()
     private val dummyTvShow = FakeDataDummy.getDummyTvShow()
-    private val dummyMovieDetail = FakeDataDummy.getDummyMovieDetail()
-    private val dummyTvShowDetail = FakeDataDummy.getDummyTvShowDetail()
 
     @get:Rule
     var activityRule = ActivityScenarioRule(HomeActivity::class.java)
@@ -59,11 +57,6 @@ class HomeActivityTest {
                 dummyMovies.size
             )
         )
-        onView(withId(R.id.fam_menu)).perform(click())
-        onView(withId(R.id.fabNewest)).perform(click())
-        onView(withId(R.id.fabOldest)).perform(click())
-        onView(withId(R.id.fabPopularity)).perform(click())
-        onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -93,7 +86,7 @@ class HomeActivityTest {
 
     @Test
     fun loadTvShows() {
-        onView(withText("Tv Shows")).perform(click())
+        onView(withText(R.string.tvShow)).perform(click())
         onView(withId(R.id.rv_tvShow)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_tvShow)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
@@ -103,17 +96,40 @@ class HomeActivityTest {
     }
 
 
+
+
+    @Test
+    fun loadDetailTvShows() {
+        onView(withText(R.string.tvShow)).perform(click())
+        onView(withId(R.id.rv_tvShow)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
+        )
+        onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_release_date)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_description)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_duration)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_vote)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_genre)).check(matches(isDisplayed()))
+        onView(withId(R.id.poster_img)).check(matches(isDisplayed()))
+        onView(withId(R.id.bg_image)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_release_date)).check(matches(isDisplayed()))
+        onView(withId(R.id.collapsing_detail)).check(matches(isDisplayed()))
+        onView(withId(R.id.cl_detail)).perform(ViewActions.swipeUp())
+        onView(withId(R.id.cv_vote)).check(matches(isDisplayed()))
+    }
+
     @Test
     fun favoriteTest() {
         onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
         onView(withId(R.id.nav_favorite)).perform(click())
-        onView(withText(R.string.movies)).perform(click())
         onView(withText(R.string.tvShow)).perform(click())
+        onView(withText(R.string.movies)).perform(click())
         onView(withId(R.id.nav_home)).perform(click())
     }
 
     @Test
     fun insertUpdateFavoriteTest() {
+        onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_movie)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 4,
@@ -150,25 +166,5 @@ class HomeActivityTest {
         )
         onView(withId(R.id.fab_add_to_favorite)).perform(click())
         Espresso.pressBack()
-    }
-
-    @Test
-    fun loadDetailTvShows() {
-        onView(withText(R.string.tvShow)).perform(click())
-        onView(withId(R.id.rv_tvShow)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
-        )
-        onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_release_date)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_description)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_duration)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_vote)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_genre)).check(matches(isDisplayed()))
-        onView(withId(R.id.poster_img)).check(matches(isDisplayed()))
-        onView(withId(R.id.bg_image)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_release_date)).check(matches(isDisplayed()))
-        onView(withId(R.id.collapsing_detail)).check(matches(isDisplayed()))
-        onView(withId(R.id.cl_detail)).perform(ViewActions.swipeUp())
-        onView(withId(R.id.cv_vote)).check(matches(isDisplayed()))
     }
 }

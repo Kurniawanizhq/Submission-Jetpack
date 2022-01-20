@@ -71,7 +71,7 @@
         android:contentDescription="@string/add_to_favorite"
         android:elevation="8dp"
         android:src="@drawable/ic_favorite_black"
-        app:backgroundTint="@color/dark"
+        app:backgroundTint="#494848"
         app:layout_anchor="@id/collapsing_detail"
         app:layout_anchorGravity="bottom|right"
         app:layout_constraintBottom_toBottomOf="@+id/cv_poster"

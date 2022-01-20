@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.eone.submission3.BuildConfig
 import com.eone.submission3.R
 import com.eone.submission3.databinding.ListMovieBinding
-import com.eone.submission3.local.MovieEntity
+import com.eone.submission3.data.local.entity.MovieEntity
 import com.eone.submission3.ui.home.HomeCallback
 
 class MovieAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) : PagedListAdapter<MovieEntity,MovieAdapter.MovieViewHolder>(
@@ -33,8 +33,7 @@ class MovieAdapter(private val movieCallback: HomeCallback.OnItemClickedMovie) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val itemsMoviesBinding =
-            ListMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemsMoviesBinding = ListMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieViewHolder(itemsMoviesBinding)
     }
 

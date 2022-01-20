@@ -1,4 +1,4 @@
-package com.eone.submission3.data.response
+package com.eone.submission3.data.network.response
 
 import com.google.gson.annotations.SerializedName
 

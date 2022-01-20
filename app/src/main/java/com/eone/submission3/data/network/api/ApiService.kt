@@ -1,7 +1,7 @@
-package com.eone.submission3.network
+package com.eone.submission3.data.network.api
 
-import com.eone.submission3.data.response.ItemDetailResponse
-import com.eone.submission3.data.response.ItemResponse
+import com.eone.submission3.data.network.response.ItemDetailResponse
+import com.eone.submission3.data.network.response.ItemResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

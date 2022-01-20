@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.eone.submission3.*
 import com.eone.submission3.databinding.ActivityDetailBinding
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.utils.ViewModelFactory
 import com.eone.submission3.vo.Status
 import com.shashank.sony.fancytoastlib.FancyToast
@@ -207,13 +207,16 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun showProgressBar(state: Boolean) {
-        if (state) {
-            binding.rlDetail.start()
-        } else {
-            binding.rlDetail.stop()
+        binding.apply {
+            if (state) {
+                rlDetail.start()
+            } else {
+                rlDetail.stop()
+            }
+            appbar.isInvisible = state
+            nestedScrollView.isInvisible = state
+            fabAddToFavorite.isInvisible = state
         }
-        binding.appbar.isInvisible = state
-        binding.nestedScrollView.isInvisible = state
     }
 
     companion object {

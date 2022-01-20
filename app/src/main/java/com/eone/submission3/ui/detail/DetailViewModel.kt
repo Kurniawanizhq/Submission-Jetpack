@@ -1,10 +1,9 @@
 package com.eone.submission3.ui.detail
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.model.repository.ContentRepository
 import com.eone.submission3.vo.Resource
 
@@ -16,7 +15,7 @@ class DetailViewModel(private val contentRepository: ContentRepository) : ViewMo
     fun getTvShowDetail(tvShowId: Int): LiveData<Resource<TvShowEntity>> =
         contentRepository.getTvShowDetail(tvShowId)
 
-    fun setFavoriteMovie(movie: MovieEntity,state : Boolean) {
+    fun setFavoriteMovie(movie: MovieEntity, state : Boolean) {
         contentRepository.setFavoriteMovie(movie, state)
     }
 

@@ -5,10 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.eone.submission3.model.repository.ContentRepository
 import com.eone.submission3.utils.FakeDataDummy
-import com.eone.submission3.data.response.ItemDetailResponse
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
-import com.eone.submission3.ui.detail.DetailViewModel
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.vo.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

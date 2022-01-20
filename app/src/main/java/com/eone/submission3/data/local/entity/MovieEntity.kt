@@ -1,4 +1,4 @@
-package com.eone.submission3.local
+package com.eone.submission3.data.local.entity
 
 import android.os.Parcelable
 import androidx.annotation.NonNull
@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "tab_movie")
+@Parcelize
 data class MovieEntity(
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -41,4 +42,4 @@ data class MovieEntity(
     @NonNull
     @ColumnInfo(name = "is_favorite")
     var isFavorite: Boolean = false
-)
+): Parcelable

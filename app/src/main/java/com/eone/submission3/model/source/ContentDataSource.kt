@@ -2,8 +2,8 @@ package com.eone.submission3.model.source
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.vo.Resource
 
 interface ContentDataSource {

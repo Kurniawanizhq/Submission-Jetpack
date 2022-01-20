@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.eone.submission3.BuildConfig
 import com.eone.submission3.R
 import com.eone.submission3.databinding.ListMovieBinding
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.ui.home.HomeCallback
 
 class TvShowAdapter(private val tvShowCallback: HomeCallback.OnItemClickedTvshow) :

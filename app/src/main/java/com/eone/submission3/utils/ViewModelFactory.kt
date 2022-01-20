@@ -7,7 +7,7 @@ import com.eone.submission3.di.Injection
 import com.eone.submission3.model.repository.ContentRepository
 import com.eone.submission3.ui.detail.DetailViewModel
 import com.eone.submission3.ui.home.HomeViewModel
-import com.eone.submission3.ui.home.fragment.favorite.FavoriteViewModel
+import com.eone.submission3.ui.favorite.FavoriteViewModel
 
 class ViewModelFactory private constructor(private val contentRepository: ContentRepository) :
     ViewModelProvider.NewInstanceFactory() {

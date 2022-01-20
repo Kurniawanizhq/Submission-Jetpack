@@ -3,11 +3,11 @@ package com.eone.submission3.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.eone.submission3.AppExecutors
+import com.eone.submission3.utils.AppExecutors
 import com.eone.submission3.PagedListUtil
-import com.eone.submission3.local.LocalDataSource
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.LocalDataSource
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.model.repository.RemoteDataSource
 import com.eone.submission3.utils.FakeDataDummy
 import com.eone.submission3.utils.LiveDataTest
@@ -89,7 +89,7 @@ class ContentRepositoryTest {
 
     @Test
     fun getFavoriteMovies(){
-        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int,MovieEntity>
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, MovieEntity>
         `when`(local.getFavoriteMovies()).thenReturn(dataSourceFactory)
         contentRepository.getFavoriteMovies()
 
@@ -101,7 +101,7 @@ class ContentRepositoryTest {
 
     @Test
     fun getFavoriteTvshow(){
-        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int,TvShowEntity>
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, TvShowEntity>
         `when`(local.getFavoriteTvShow()).thenReturn(dataSourceFactory)
         contentRepository.getFavoriteTvShow()
 

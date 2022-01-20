@@ -8,6 +8,4 @@ object EspressoIdlingResource {
 
     fun increment() = idlingResource.increment()
     fun decrement() = idlingResource.decrement()
-
-//    fun getEspressoIdlingResource(): IdlingResource = idlingResource
 }

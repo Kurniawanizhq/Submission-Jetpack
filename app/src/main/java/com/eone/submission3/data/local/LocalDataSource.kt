@@ -1,8 +1,10 @@
-package com.eone.submission3.local
+package com.eone.submission3.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import com.eone.submission3.ContentDao
+import com.eone.submission3.data.local.room.ContentDao
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.utils.SortUtils
 
 class LocalDataSource (private val contentDao: ContentDao) {

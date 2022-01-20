@@ -2,6 +2,9 @@ package com.eone.submission3
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import com.eone.submission3.data.network.vo.ApiResponse
+import com.eone.submission3.data.network.vo.StatusResponse
+import com.eone.submission3.utils.AppExecutors
 import com.eone.submission3.vo.Resource
 
 abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecutors: AppExecutors) {

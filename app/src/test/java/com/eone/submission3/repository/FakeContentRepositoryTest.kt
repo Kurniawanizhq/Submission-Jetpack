@@ -2,14 +2,14 @@ package com.eone.submission3.repository
 
 import androidx.lifecycle.LiveData
 import androidx.paging.*
-import com.eone.submission3.ApiResponse
-import com.eone.submission3.AppExecutors
+import com.eone.submission3.data.network.vo.ApiResponse
+import com.eone.submission3.utils.AppExecutors
 import com.eone.submission3.NetworkBoundResource
-import com.eone.submission3.data.response.ItemDetailResponse
-import com.eone.submission3.data.response.ItemListResponse
-import com.eone.submission3.local.LocalDataSource
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.network.response.ItemDetailResponse
+import com.eone.submission3.data.network.response.ItemListResponse
+import com.eone.submission3.data.local.LocalDataSource
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.model.repository.RemoteDataSource
 import com.eone.submission3.model.source.ContentDataSource
 import com.eone.submission3.vo.Resource

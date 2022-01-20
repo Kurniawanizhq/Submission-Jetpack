@@ -1,4 +1,4 @@
-package com.eone.submission3
+package com.eone.submission3.utils
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.VisibleForTesting

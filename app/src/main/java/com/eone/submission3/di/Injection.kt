@@ -1,9 +1,9 @@
 package com.eone.submission3.di
 
 import android.content.Context
-import com.eone.submission3.AppExecutors
-import com.eone.submission3.ContentDatabase
-import com.eone.submission3.local.LocalDataSource
+import com.eone.submission3.utils.AppExecutors
+import com.eone.submission3.data.local.room.ContentDatabase
+import com.eone.submission3.data.local.LocalDataSource
 import com.eone.submission3.model.repository.ContentRepository
 import com.eone.submission3.model.repository.RemoteDataSource
 

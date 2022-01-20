@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.eone.submission3.databinding.FragmentTvShowBinding
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 import com.eone.submission3.ui.adapter.TvShowAdapter
 import com.eone.submission3.ui.detail.DetailActivity
 import com.eone.submission3.ui.home.HomeCallback

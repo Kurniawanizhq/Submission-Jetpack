@@ -3,12 +3,12 @@ package com.eone.submission3.model.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.eone.submission3.ApiResponse
+import com.eone.submission3.data.network.vo.ApiResponse
 import com.eone.submission3.BuildConfig
-import com.eone.submission3.data.response.ItemDetailResponse
-import com.eone.submission3.data.response.ItemListResponse
-import com.eone.submission3.data.response.ItemResponse
-import com.eone.submission3.network.ApiConfig
+import com.eone.submission3.data.network.response.ItemDetailResponse
+import com.eone.submission3.data.network.response.ItemListResponse
+import com.eone.submission3.data.network.response.ItemResponse
+import com.eone.submission3.data.network.api.ApiConfig
 import com.eone.submission3.utils.EspressoIdlingResource
 import retrofit2.Call
 import retrofit2.Callback

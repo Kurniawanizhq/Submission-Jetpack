@@ -1,11 +1,11 @@
-package com.eone.submission3
+package com.eone.submission3.data.local.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.eone.submission3.local.MovieEntity
-import com.eone.submission3.local.TvShowEntity
+import com.eone.submission3.data.local.entity.MovieEntity
+import com.eone.submission3.data.local.entity.TvShowEntity
 
 @Database(
     entities = [MovieEntity::class, TvShowEntity::class],

@@ -1,4 +1,4 @@
-package com.eone.submission3.network
+package com.eone.submission3.data.network.api
 
 import com.eone.submission3.BuildConfig
 import okhttp3.Dns
